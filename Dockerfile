@@ -1,22 +1,18 @@
+# Build stage
 FROM node:19-bullseye-slim AS build
-
-RUN apt-get update && \
-    apt-get install -y \
-    git
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and tsconfig.json
-COPY ./app/package.json ./
-COPY ./app/tsconfig.json ./
+# Copy package.json and package-lock.json (if available)
+COPY ./app/package*.json ./
 
 # Install Node.js dependencies
-RUN npm install
+RUN npm ci --only=production
 
+# Copy necessary files for the build
+COPY ./app/tsconfig.json ./
 COPY ./app/vite.config.js ./
-
-# Copy public, and src directories
 COPY ./app/public ./public
 COPY ./app/src ./src
 COPY ./app/index.html ./
@@ -27,24 +23,32 @@ ENV NODE_ENV=production
 # Build the application
 RUN npm run build
 
+# Server stage
 FROM node:19-bullseye-slim AS server
 
-# Set the working directory
+# Create app directory and set as working directory
 WORKDIR /app
 
-COPY ./server/package.json ./server/tsconfig.json ./
+# Copy package.json and package-lock.json (if available)
+COPY ./server/package*.json ./
 
-# Install Node.js dependencies from package.json
-RUN npm install
+# Install Node.js dependencies for server
+RUN npm ci --only=production
 
-# Copy the rest of the application code into the working directory
+# Copy built code from the build stage
+COPY --from=build /app/dist ./dist
 COPY ./server/src ./src
 
-RUN CI=true sh -c "cd /app && npm run start && rm -rf data"
+# Add user and set permissions
+RUN adduser --disabled-password --gecos '' appuser && chown -R appuser /app
+USER appuser
 
-COPY --from=build /app/build /app/public
-
-LABEL org.opencontainers.image.source="https://github.com/cogentapps/chat-with-gpt"
+# Set environment variables
 ENV PORT 3000
+ENV NODE_ENV=production
 
+# Expose the port the app runs on
+EXPOSE $PORT
+
+# Start the server
 CMD ["npm", "run", "start"]
