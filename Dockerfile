@@ -39,8 +39,6 @@ RUN npm install
 # Copy the server's source code
 COPY ./server/src ./src
 
-RUN CI=true sh -c "cd /app && npm run start && rm -rf data"
-
 # Copy the built application from the build stage
 COPY --from=build /app/build /app/public
 
