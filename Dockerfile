@@ -1,23 +1,24 @@
 # Build stage
 FROM node:19-bullseye-slim AS build
 
-# Set working directory
+RUN apt-get update && \
+    apt-get install -y \
+    git
+
+# Set working directory for the build stage
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY ./app/package*.json ./
-
-# Install Node.js dependencies
-RUN npm ci --only=production
-
-# Copy necessary files for the build
+# Copy package.json and tsconfig.json for the app
+COPY ./app/package.json ./
 COPY ./app/tsconfig.json ./
-COPY ./app/vite.config.js ./
-COPY ./app/public ./public
-COPY ./app/src ./src
-COPY ./app/index.html ./
 
-# Set environment variables
+# Install all Node.js dependencies (including devDependencies)
+RUN npm install
+
+# Copy the application source code
+COPY ./app/ ./
+
+# Set encironment variables
 ENV NODE_ENV=production
 
 # Build the application
@@ -26,29 +27,29 @@ RUN npm run build
 # Server stage
 FROM node:19-bullseye-slim AS server
 
-# Create app directory and set as working directory
+# Set the working directory for the server stage
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY ./server/package*.json ./
+# Copy package.json and package-lock.json for the server
+COPY ./server/package.json ./server/tsconfig.json ./
 
-# Install Node.js dependencies for server
-RUN npm ci --only=production
+# Install only production dependencies for the server
+RUN npm install
 
-# Copy built code from the build stage
-COPY --from=build /app/dist ./dist
+# Copy the server's source code
 COPY ./server/src ./src
 
-# Add user and set permissions
+RUN CI=true sh -c "cd /app && npm run start && rm -rf data"
+
+# Copy the built application from the build stage
+COPY --from=build /app/build /app/public
+
+# Add a non-root user and set permissions
 RUN adduser --disabled-password --gecos '' appuser && chown -R appuser /app
 USER appuser
 
 # Set environment variables
 ENV PORT 3000
-ENV NODE_ENV=production
-
-# Expose the port the app runs on
-EXPOSE $PORT
 
 # Start the server
 CMD ["npm", "run", "start"]
