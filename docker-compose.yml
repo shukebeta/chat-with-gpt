@@ -6,9 +6,9 @@ services:
       context: .  # The build context is the current directory
       dockerfile: Dockerfile  # The name of the Dockerfile
     ports:
-      - "3500:3000"  # Port mapping from host to container
+      - "3000:3000"  # Port mapping from host to container
     environment:
       - NODE_ENV=production  # Set the environment variable for Node.js
     volumes: 
-      - /c/Users/Mitch/Docker/chat-with-gpt-dev/app/data/:/app/data
+      - /c/Users/Mitch/Docker/chat-with-gpt/app/data/:/app/data
     restart: always  # The container will always restart unless stopped
