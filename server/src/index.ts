@@ -49,6 +49,9 @@ export default class ChatServer {
     async initialize() {
         //const { default: helmet } = await import('helmet');
         //this.app.use(helmet());
+        
+        // Trust the first proxy
+        this.app.set('trust proxy', 1);
 
         this.app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
