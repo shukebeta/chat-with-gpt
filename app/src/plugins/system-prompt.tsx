@@ -4,9 +4,8 @@ import { PluginDescription } from "../core/plugins/plugin-description";
 import { OpenAIMessage, Parameters } from "../core/chat/types";
 
 export const defaultSystemPrompt = `
-You are ChatGPT, a large language model trained by OpenAI.
-Knowledge cutoff: 2021-09
-Current date and time: {{ datetime }}
+I am ChatGPT 4.5 Turbo, a large language model and helpful assistant.
+All of my responses are detailed and as if the prompter is a PhD level expert in the topic.
 `.trim();
 
 export interface SystemPromptPluginOptions {
