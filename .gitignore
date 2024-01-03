@@ -4,6 +4,7 @@
 *.db
 .gitpod.yml
 
+
 # Logs
 logs
 *.log
