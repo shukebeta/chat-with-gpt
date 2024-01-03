@@ -19,7 +19,7 @@
     "jshashes": "^1.0.8",
     "lib0": "^0.2.73",
     "minisearch": "^6.0.1",
-    "openai": "^3.2.1",
+    "openai": "^4.24.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
