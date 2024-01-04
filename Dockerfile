@@ -9,16 +9,15 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy package.json and tsconfig.json for the app
-COPY ./app/package.json ./
-COPY ./app/tsconfig.json ./
+COPY ./app/package*.json /app/tsconfig.json ./
 
 # Install all Node.js dependencies (including devDependencies)
-RUN npm install
+RUN npm ci
 
 # Copy the application source code
 COPY ./app/ ./
 
-# Set encironment variables
+# Set environment variables
 ENV NODE_ENV=production
 
 # Build the application
@@ -31,10 +30,10 @@ FROM node:19-bullseye-slim AS server
 WORKDIR /app
 
 # Copy package.json and package-lock.json for the server
-COPY ./server/package.json ./server/tsconfig.json ./
+COPY ./server/package*.json ./server/tsconfig.json ./
 
 # Install only production dependencies for the server
-RUN npm install
+RUN npm ci
 
 # Copy the server's source code
 COPY ./server/src ./src
