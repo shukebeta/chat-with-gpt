@@ -5,3 +5,8 @@ node_modules
 npm-debug.log
 Dockerfile
 *.md
+.eslintrc.json
+.env
+*.tar
+LICENSE
+README.md

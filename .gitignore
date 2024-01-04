@@ -5,6 +5,7 @@
 .gitpod.yml
 .env
 .eslintrc.json
+chat-with-gpt.tar
 
 
 # Logs
