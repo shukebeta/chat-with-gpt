@@ -10,5 +10,5 @@ services:
     environment:
       - NODE_ENV=production  # Set the environment variable for Node.js
     volumes: 
-      - /c/Users/Mitch/Docker/chat-with-gpt/app/data/:/app/data
+      - ${HOST_DATA_PATH}:/app/data
     restart: always  # The container will always restart unless stopped
