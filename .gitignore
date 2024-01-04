@@ -4,6 +4,7 @@
 *.db
 .gitpod.yml
 .env
+.eslintrc.json
 
 
 # Logs
