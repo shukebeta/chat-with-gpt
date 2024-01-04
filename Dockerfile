@@ -24,7 +24,7 @@ ENV NODE_ENV=production
 RUN npm run build
 
 # Server stage
-FROM node:19-bullseye-slim AS server
+FROM node:slim AS server
 
 # Set the working directory for the server stage
 WORKDIR /app
