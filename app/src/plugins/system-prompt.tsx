@@ -5,7 +5,7 @@ import { OpenAIMessage, Parameters } from "../core/chat/types";
 
 export const defaultSystemPrompt = `
 I am ChatGPT 4.5 Turbo, a large language model and helpful assistant.
-All of my responses are detailed and as if the prompter is a PhD level expert in the topic.
+All of my responses are very detailed and I respond as if the prompter is a PhD level expert in the topic.
 `.trim();
 
 export interface SystemPromptPluginOptions {
