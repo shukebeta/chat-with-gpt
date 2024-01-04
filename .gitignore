@@ -6,7 +6,8 @@
 .env
 .eslintrc.json
 chat-with-gpt.tar
-
+create-tar.sh
+docker-build-push.sh
 
 # Logs
 logs
