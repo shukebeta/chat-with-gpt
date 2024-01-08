@@ -45,6 +45,9 @@ COPY --from=build /app/build /app/public
 RUN adduser --disabled-password --gecos '' appuser && chown -R appuser /app
 USER appuser
 
+# Set image source label
+LABEL org.opencontainers.image.source="https://github.com/fitchmultz/chat-with-gpt"
+
 # Set environment variables
 ENV PORT 3000
 
