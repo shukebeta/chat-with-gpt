@@ -1,12 +1,9 @@
 version: '3.8'
-
 services:
   app:
-    build:
-      context: . 
-      dockerfile: Dockerfile  
+    image: 'fitchmultz/chat-with-gpt:latest'
+    restart: always
     ports:
-      - "3000:3000"  # Port mapping from host to container
+      - '3000:3000'  # Port mapping from host to container
     volumes: 
       - ${HOST_DATA_PATH}:/app/data
-    restart: always  # The container will always restart unless stopped
