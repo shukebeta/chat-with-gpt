@@ -30,4 +30,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/chat-with-gpt:${{ github.ref == 'refs/heads/main' && 'latest' || 'dev' }}
+          tags: ghcr.io/${{ github.repository_owner }}/chat-with-gpt:${{ github.ref == 'refs/heads/main' && 'latest' || github.ref == 'refs/heads/dev' && 'dev' || 'dev2' }}
+
