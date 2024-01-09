@@ -33,7 +33,7 @@
     "rehype-katex": "^6.0.2",
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
-    "sentence-splitter": "^4.2.0",
+    "sentence-splitter": "^5.0.0",
     "slugify": "^1.6.5",
     "uuid": "^9.0.0",
     "y-indexeddb": "^9.0.9",
