@@ -32,6 +32,11 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/chat-with-gpt:${{ github.ref == 'refs/heads/main' && 'latest' || github.ref == 'refs/heads/dev' && 'dev' || 'dev2' }}
 
+      - name: Trigger Portainer Stack Update on main Branch
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -X POST ${{ secrets.PORTAINER_WEBHOOK_URL }}
+
       - name: Trigger Portainer Stack Update on dev2 Branch
         if: github.ref == 'refs/heads/dev2'
         run: |
