@@ -8,6 +8,7 @@
 chat-with-gpt.tar
 create-tar.sh
 docker-build-push.sh
+*.bak
 
 # Logs
 logs
