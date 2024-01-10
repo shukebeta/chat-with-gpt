@@ -2,7 +2,7 @@
 
 Chat with GPT is an open-source, unofficial ChatGPT app with extra features and more ways to customize your experience. It connects ChatGPT with ElevenLabs to give ChatGPT a realistic human voice.
 
-This is a fork of from [cogent-apps](https://github.com/cogentapps/chat-with-gpt) that is no longer maintained.
+This is a fork of [cogent-apps](https://github.com/cogentapps/chat-with-gpt) that is no longer maintained.
 
 You can [self-host with Docker](#running-on-your-own-computer).
 
