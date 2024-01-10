@@ -38,7 +38,7 @@ jobs:
         run: |
           curl -X POST ${{ secrets.PORTAINER_WEBHOOK_URL }}
 
-      - name: Trigger Portainer Stack Update on main Branch
+      - name: Trigger Portainer Stack Update on dev Branch
         if: github.ref == 'refs/heads/dev'
         run: |
           curl -X POST ${{ secrets.PORTAINER_WEBHOOK_URL_DEV }}
