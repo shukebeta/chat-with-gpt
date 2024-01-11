@@ -1,6 +1,6 @@
-import { Option } from "./option";
-import type { OptionsManager } from ".";
-import { ReactNode } from "react";
+import { type Option } from './option'
+import type { OptionsManager } from '.'
+import { type ReactNode } from 'react'
 
 /**
  * @interface OptionGroup
@@ -12,9 +12,9 @@ import { ReactNode } from "react";
  * @property {Option[]} options - An array of options within the group.
  */
 export interface OptionGroup {
-    id: string;
-    name?: string;
-    description?: string | ReactNode;
-    hidden?: boolean | ((options: OptionsManager) => boolean);
-    options: Option[];
+  id: string
+  name?: string
+  description?: string | ReactNode
+  hidden?: boolean | ((options: OptionsManager) => boolean)
+  options: Option[]
 }

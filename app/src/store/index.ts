@@ -1,5 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit'
+import { type TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import {
   FLUSH,
   PAUSE,
@@ -8,27 +8,27 @@ import {
   REGISTER,
   REHYDRATE,
   persistReducer,
-  persistStore,
-} from "redux-persist";
-import storage from 'redux-persist/lib/storage';
-import messageReducer from './message';
-import settingsUIReducer from './settings-ui';
-import sidebarReducer from './sidebar';
-import uiReducer from './ui';
+  persistStore
+} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import messageReducer from './message'
+import settingsUIReducer from './settings-ui'
+import sidebarReducer from './sidebar'
+import uiReducer from './ui'
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage
 }
 
 const persistSidebarConfig = {
   key: 'sidebar',
-  storage,
+  storage
 }
 
 const persistMessageConfig = {
   key: 'message',
-  storage,
+  storage
 }
 
 const store = configureStore({
@@ -36,22 +36,22 @@ const store = configureStore({
     message: persistReducer<ReturnType<typeof messageReducer>>(persistMessageConfig, messageReducer),
     ui: uiReducer,
     settingsUI: settingsUIReducer,
-    sidebar: persistReducer<ReturnType<typeof sidebarReducer>>(persistSidebarConfig, sidebarReducer),
+    sidebar: persistReducer<ReturnType<typeof sidebarReducer>>(persistSidebarConfig, sidebarReducer)
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-});
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    })
+})
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
 
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-export const persistor = persistStore(store);
+export const persistor = persistStore(store)
 
-export default store;
+export default store

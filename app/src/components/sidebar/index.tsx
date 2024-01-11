@@ -1,14 +1,14 @@
-import styled from '@emotion/styled';
-import { ActionIcon, Avatar, Burger, Button, Menu } from '@mantine/core';
-import { useElementSize } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { backend } from '../../core/backend';
-import { useAppContext } from '../../core/context';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { setTab } from '../../store/settings-ui';
-import { selectSidebarOpen, toggleSidebar } from '../../store/sidebar';
-import RecentChats from './recent-chats';
+import styled from '@emotion/styled'
+import { ActionIcon, Avatar, Burger, Button, Menu } from '@mantine/core'
+import { useElementSize } from '@mantine/hooks'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { backend } from '../../core/backend'
+import { useAppContext } from '../../core/context'
+import { useAppDispatch, useAppSelector } from '../../store'
+import { setTab } from '../../store/settings-ui'
+import { selectSidebarOpen, toggleSidebar } from '../../store/sidebar'
+import RecentChats from './recent-chats'
 
 const Container = styled.div`
     display: flex;
@@ -97,38 +97,38 @@ const Container = styled.div`
     .spacer {
         flex-grow: 1;
     }
-`;
+`
 
-export default function Sidebar(props: {
-    className?: string;
+export default function Sidebar (props: {
+  className?: string
 }) {
-    const intl = useIntl();
-    const context = useAppContext();
-    const dispatch = useAppDispatch();
-    const sidebarOpen = useAppSelector(selectSidebarOpen);
-    const onBurgerClick = useCallback(() => dispatch(toggleSidebar()), [dispatch]);
-    const { ref, width } = useElementSize();
+  const intl = useIntl()
+  const context = useAppContext()
+  const dispatch = useAppDispatch()
+  const sidebarOpen = useAppSelector(selectSidebarOpen)
+  const onBurgerClick = useCallback(() => dispatch(toggleSidebar()), [dispatch])
+  const { ref, width } = useElementSize()
 
-    const [version, setVersion] = useState(0);
-    const update = useCallback(() => {
-        setVersion(v => v + 1);
-    }, []);
-    
-    useEffect(() => {
-        context.chat.on('update', update);
-        return () => {
-            context.chat.off('update', update);
-        };
-    }, []);
+  const [version, setVersion] = useState(0)
+  const update = useCallback(() => {
+    setVersion(v => v + 1)
+  }, [])
 
-    const burgerLabel = sidebarOpen
-        ? intl.formatMessage({ defaultMessage: "Close sidebar" })
-        : intl.formatMessage({ defaultMessage: "Open sidebar" });
+  useEffect(() => {
+    context.chat.on('update', update)
+    return () => {
+      context.chat.off('update', update)
+    }
+  }, [])
 
-    const elem = useMemo(() => (
-        <Container className={"sidebar " + (sidebarOpen ? 'opened' : 'closed')} ref={ref}>
+  const burgerLabel = sidebarOpen
+    ? intl.formatMessage({ defaultMessage: 'Close sidebar' })
+    : intl.formatMessage({ defaultMessage: 'Open sidebar' })
+
+  const elem = useMemo(() => (
+        <Container className={'sidebar ' + (sidebarOpen ? 'opened' : 'closed')} ref={ref}>
             <div className="sidebar-header">
-                <h2><FormattedMessage defaultMessage={"Chat History"} description="Heading for the chat history screen" /></h2>
+                <h2><FormattedMessage defaultMessage={'Chat History'} description="Heading for the chat history screen" /></h2>
                 <Burger opened={sidebarOpen} onClick={onBurgerClick} aria-label={burgerLabel} transitionDuration={0} />
             </div>
             <div className="sidebar-content">
@@ -152,21 +152,21 @@ export default function Sidebar(props: {
                     </Menu.Target>
                     <Menu.Dropdown>
                         <Menu.Item onClick={() => {
-                            dispatch(setTab('user'));
+                          dispatch(setTab('user'))
                         }} icon={<i className="fas fa-gear" />}>
-                            <FormattedMessage defaultMessage={"User settings"} description="Menu item that opens the user settings screen" />
+                            <FormattedMessage defaultMessage={'User settings'} description="Menu item that opens the user settings screen" />
                         </Menu.Item>
 
                         <Menu.Divider />
-                        <Menu.Item color="red" onClick={() => backend.current?.logout()} icon={<i className="fas fa-sign-out-alt" />}>
-                            <FormattedMessage defaultMessage={"Sign out"} />
+                        <Menu.Item color="red" onClick={async () => await backend.current?.logout()} icon={<i className="fas fa-sign-out-alt" />}>
+                            <FormattedMessage defaultMessage={'Sign out'} />
                         </Menu.Item>
 
                     </Menu.Dropdown>
                 </Menu>
             )}
         </Container>
-    ), [sidebarOpen, width, ref, burgerLabel, onBurgerClick, dispatch, version]);
+  ), [sidebarOpen, width, ref, burgerLabel, onBurgerClick, dispatch, version])
 
-    return elem;
+  return elem
 }

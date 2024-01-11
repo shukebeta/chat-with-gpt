@@ -1,6 +1,6 @@
-import type { OptionsManager } from ".";
-import { Context } from "../context";
-import { RenderProps, RenderPropsBuilder } from "./render-props";
+import type { OptionsManager } from '.'
+import { type Context } from '../context'
+import { type RenderProps, type RenderPropsBuilder } from './render-props'
 
 /**
  * Represents an option in the settings UI.
@@ -15,20 +15,20 @@ import { RenderProps, RenderPropsBuilder } from "./render-props";
  * @property {(value: any, options: OptionsManager) => boolean} [validate] - If this function returns false, the defaultValue will be used instead.
  */
 export interface Option {
-    id: string;
-    defaultValue: any;
-    scope?: 'chat' | 'user' | 'browser';
-    
-    displayOnSettingsScreen: 'speech' | 'chat' | 'plugins' | 'ui' | 'user';
-    displayAsSeparateSection?: boolean;
-    resettable?: boolean;
+  id: string
+  defaultValue: any
+  scope?: 'chat' | 'user' | 'browser'
 
-    renderProps: RenderProps | RenderPropsBuilder;
-    validate?: (value: any, options: OptionsManager) => boolean;
+  displayOnSettingsScreen: 'speech' | 'chat' | 'plugins' | 'ui' | 'user'
+  displayAsSeparateSection?: boolean
+  resettable?: boolean
 
-    displayInQuickSettings?: {
-        name: string;
-        displayByDefault?: boolean;
-        label: string | ((value: any, options: OptionsManager, context: Context) => string);
-    };
+  renderProps: RenderProps | RenderPropsBuilder
+  validate?: (value: any, options: OptionsManager) => boolean
+
+  displayInQuickSettings?: {
+    name: string
+    displayByDefault?: boolean
+    label: string | ((value: any, options: OptionsManager, context: Context) => string)
+  }
 }

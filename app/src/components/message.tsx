@@ -1,23 +1,23 @@
-import styled from '@emotion/styled';
-import { Button, CopyButton, Loader, Textarea } from '@mantine/core';
+import styled from '@emotion/styled'
+import { Button, CopyButton, Loader, Textarea } from '@mantine/core'
 
-import { useOption } from '../core/options/use-option';
-import { Message } from "../core/chat/types";
-import { share } from '../core/utils';
-import { TTSButton } from './tts-button';
-import { Markdown } from './markdown';
-import { useAppContext } from '../core/context';
-import { useCallback, useMemo, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useAppSelector } from '../store';
-import { selectSettingsTab } from '../store/settings-ui';
+import { useOption } from '../core/options/use-option'
+import { type Message } from '../core/chat/types'
+import { share } from '../core/utils'
+import { TTSButton } from './tts-button'
+import { Markdown } from './markdown'
+import { useAppContext } from '../core/context'
+import { useCallback, useMemo, useState } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { useAppSelector } from '../store'
+import { selectSettingsTab } from '../store/settings-ui'
 
 // hide for everyone but screen readers
 const SROnly = styled.span`
     position: fixed;
     left: -9999px;
     top: -9999px;
-`;
+`
 
 const Container = styled.div`
     &.by-user {
@@ -171,7 +171,7 @@ const Container = styled.div`
     strong {
         font-weight: bold;
     }
-`;
+`
 
 const EndOfChatMarker = styled.div`
     position: absolute;
@@ -182,7 +182,7 @@ const EndOfChatMarker = styled.div`
     margin-left: -0.25rem;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
-`;
+`
 
 const Editor = styled.div`
     max-width: 50rem;
@@ -193,57 +193,59 @@ const Editor = styled.div`
     .mantine-Button-root {
         margin-top: 1rem;
     }
-`;
+`
 
-function InlineLoader() {
-    return (
+function InlineLoader () {
+  return (
         <Loader variant="dots" size="xs" style={{
-            marginLeft: '1rem',
-            position: 'relative',
-            top: '-0.2rem',
+          marginLeft: '1rem',
+          position: 'relative',
+          top: '-0.2rem'
         }} />
-    );
+  )
 }
 
-export default function MessageComponent(props: { message: Message, last: boolean, share?: boolean }) {
-    const context = useAppContext();
-    const [editing, setEditing] = useState(false);
-    const [content, setContent] = useState('');
-    const intl = useIntl();
+export default function MessageComponent (props: { message: Message, last: boolean, share?: boolean }) {
+  const context = useAppContext()
+  const [editing, setEditing] = useState(false)
+  const [content, setContent] = useState('')
+  const intl = useIntl()
 
-    const [katex] = useOption<boolean>('markdown', 'katex');
+  const [katex] = useOption<boolean>('markdown', 'katex')
 
-    const tab = useAppSelector(selectSettingsTab);
+  const tab = useAppSelector(selectSettingsTab)
 
-    const getRoleName = useCallback((role: string, share = false) => {
-        switch (role) {
-            case 'user':
-                if (share) {
-                    return intl.formatMessage({ id: 'role-user-formal', defaultMessage: 'User', description: "Label that is shown above messages written by the user (as opposed to the AI) for publicly shared conversation (third person, formal)." });
-                } else {
-                    return intl.formatMessage({ id: 'role-user', defaultMessage: 'You', description: "Label that is shown above messages written by the user (as opposed to the AI) in the user's own chat sessions (first person)." });
-                }
-                break;
-            case 'assistant':
-                return intl.formatMessage({ id: 'role-chatgpt', defaultMessage: 'ChatGPT', description: "Label that is shown above messages written by the AI (as opposed to the user)" });
-            case 'system':
-                return intl.formatMessage({ id: 'role-system', defaultMessage: 'System', description: "Label that is shown above messages inserted into the conversation automatically by the system (as opposed to either the user or AI)" });
-            default:
-                return role;
+  const getRoleName = useCallback((role: string, share = false) => {
+    switch (role) {
+      case 'user':
+        if (share) {
+          return intl.formatMessage({ id: 'role-user-formal', defaultMessage: 'User', description: 'Label that is shown above messages written by the user (as opposed to the AI) for publicly shared conversation (third person, formal).' })
+        } else {
+          return intl.formatMessage({ id: 'role-user', defaultMessage: 'You', description: "Label that is shown above messages written by the user (as opposed to the AI) in the user's own chat sessions (first person)." })
         }
-    }, [intl]);
+        break
+      case 'assistant':
+        return intl.formatMessage({ id: 'role-chatgpt', defaultMessage: 'ChatGPT', description: 'Label that is shown above messages written by the AI (as opposed to the user)' })
+      case 'system':
+        return intl.formatMessage({ id: 'role-system', defaultMessage: 'System', description: 'Label that is shown above messages inserted into the conversation automatically by the system (as opposed to either the user or AI)' })
+      default:
+        return role
+    }
+  }, [intl])
 
-    const elem = useMemo(() => {
-        if (props.message.role === 'system') {
-            return null;
-        }
+  const elem = useMemo(() => {
+    if (props.message.role === 'system') {
+      return null
+    }
 
-        const imageElement = props.message.image_url ? (
+    const imageElement = props.message.image_url
+      ? (
             <img src={props.message.image_url} alt="Message content" className="content-image" />
-        ) : null;
+        )
+      : null
 
-        return (
-            <Container className={"message by-" + props.message.role}>
+    return (
+            <Container className={'message by-' + props.message.role}>
                 <div className="inner">
                     <div className="metadata">
                         <span>
@@ -261,13 +263,14 @@ export default function MessageComponent(props: { message: Message, last: boolea
                             {({ copy, copied }) => (
                                 <Button variant="subtle" size="sm" compact onClick={copy} style={{ marginLeft: '1rem' }}>
                                     <i className="fa fa-clipboard" />
-                                    {copied ? <FormattedMessage defaultMessage="Copied" description="Label for copy-to-clipboard button after a successful copy" />
-                                        : <span><FormattedMessage defaultMessage="Copy" description="Label for copy-to-clipboard button" /></span>}
+                                    {copied
+                                      ? <FormattedMessage defaultMessage="Copied" description="Label for copy-to-clipboard button after a successful copy" />
+                                      : <span><FormattedMessage defaultMessage="Copy" description="Label for copy-to-clipboard button" /></span>}
                                 </Button>
                             )}
                         </CopyButton>
                         {typeof navigator.share !== 'undefined' && (
-                            <Button variant="subtle" size="sm" compact onClick={() => share(props.message.content)}>
+                            <Button variant="subtle" size="sm" compact onClick={async () => { await share(props.message.content) }}>
                                 <i className="fa fa-share" />
                                 <span>
                                     <FormattedMessage defaultMessage="Share" description="Label for a button which shares the text of a chat message using the user device's share functionality" />
@@ -276,18 +279,19 @@ export default function MessageComponent(props: { message: Message, last: boolea
                         )}
                         {!context.isShare && props.message.role === 'user' && (
                             <Button variant="subtle" size="sm" compact onClick={() => {
-                                setContent(props.message.content);
-                                setEditing(v => !v);
+                              setContent(props.message.content)
+                              setEditing(v => !v)
                             }}>
                                 <i className="fa fa-edit" />
                                 <span>
-                                    {editing ? <FormattedMessage defaultMessage="Cancel" description="Label for a button that appears when the user is editing the text of one of their messages, to cancel without saving changes" />
-                                        : <FormattedMessage defaultMessage="Edit" description="Label for the button the user can click to edit the text of one of their messages" />}
+                                    {editing
+                                      ? <FormattedMessage defaultMessage="Cancel" description="Label for a button that appears when the user is editing the text of one of their messages, to cancel without saving changes" />
+                                      : <FormattedMessage defaultMessage="Edit" description="Label for the button the user can click to edit the text of one of their messages" />}
                                 </span>
                             </Button>
                         )}
                         {!context.isShare && props.message.role === 'assistant' && (
-                            <Button variant="subtle" size="sm" compact onClick={() => context.regenerateMessage(props.message)}>
+                            <Button variant="subtle" size="sm" compact onClick={async () => await context.regenerateMessage(props.message)}>
                                 <i className="fa fa-refresh" />
                                 <span>
                                     <FormattedMessage defaultMessage="Regenerate" description="Label for the button used to ask the AI to regenerate one of its messages. Since message generations are stochastic, the resulting message will be different." />
@@ -296,27 +300,27 @@ export default function MessageComponent(props: { message: Message, last: boolea
                         )}
                     </div>
                     {!editing && (
-                        <div className={"content view-content-" + props.message.id}>
-                            <Markdown content={props.message.content} katex={katex} className={"content content-" + props.message.id} />
+                        <div className={'content view-content-' + props.message.id}>
+                            <Markdown content={props.message.content} katex={katex} className={'content content-' + props.message.id} />
                             {imageElement}
                         </div>
                     )}
                     {editing && (<Editor>
                         <Textarea value={content}
-                            onChange={e => setContent(e.currentTarget.value)}
+                            onChange={e => { setContent(e.currentTarget.value) }}
                             autosize={true} />
-                        <Button variant="light" onClick={() => context.editMessage(props.message, content)}>
+                        <Button variant="light" onClick={async () => await context.editMessage(props.message, content)}>
                             <FormattedMessage defaultMessage="Save changes" description="Label for a button that appears when the user is editing the text of one of their messages, to save the changes" />
                         </Button>
-                        <Button variant="subtle" onClick={() => setEditing(false)}>
+                        <Button variant="subtle" onClick={() => { setEditing(false) }}>
                             <FormattedMessage defaultMessage="Cancel" description="Label for a button that appears when the user is editing the text of one of their messages, to cancel without saving changes" />
                         </Button>
                     </Editor>)}
                 </div>
                 {props.last && <EndOfChatMarker />}
             </Container>
-        )
-    }, [props.last, props.share, editing, content, context, props.message, props.message.content, props.message.image_url, tab]);
+    )
+  }, [props.last, props.share, editing, content, context, props.message, props.message.content, props.message.image_url, tab])
 
-    return elem;
+  return elem
 }

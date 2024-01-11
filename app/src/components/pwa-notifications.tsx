@@ -1,37 +1,39 @@
-import { Button, Notification } from "@mantine/core";
-import { useCallback } from "react";
-import { useRegisterSW } from "virtual:pwa-register/react";
+import { Button, Notification } from '@mantine/core'
+import { useCallback } from 'react'
+import { useRegisterSW } from 'virtual:pwa-register/react'
 
-export function InstallUpdateNotification() {
+export function InstallUpdateNotification () {
   const {
     offlineReady: [_, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
-    updateServiceWorker,
+    updateServiceWorker
   } = useRegisterSW({
-    onRegistered(r) {
-      console.log("SW Registered:", r);
+    onRegistered (r) {
+      console.log('SW Registered:', r)
     },
-    onRegisterError(error) {
-      console.log("SW registration error", error);
-    },
-  });
+    onRegisterError (error) {
+      console.log('SW registration error', error)
+    }
+  })
 
   const onClose = () => {
-    setOfflineReady(false);
-    setNeedRefresh(false);
-  };
+    setOfflineReady(false)
+    setNeedRefresh(false)
+  }
 
   const onUpdate = useCallback(async () => {
-    updateServiceWorker(true);
-  }, []);
+    updateServiceWorker(true)
+  }, [])
 
-  return needRefresh ? (
+  return needRefresh
+    ? (
     <Notification title="Update available!" onClose={onClose}>
-      Click{" "}
+      Click{' '}
       <Button compact onClick={onUpdate}>
         Update now
-      </Button>{" "}
+      </Button>{' '}
       to get the latest version.
     </Notification>
-  ) : null;
+      )
+    : null
 }

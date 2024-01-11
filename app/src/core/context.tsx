@@ -1,245 +1,245 @@
-import React, { useState, useRef, useMemo, useEffect, useCallback } from "react";
-import { v4 as uuidv4 } from 'uuid';
-import { IntlShape, useIntl } from "react-intl";
-import { Backend, User } from "./backend";
-import { ChatManager } from "./";
-import { useAppDispatch } from "../store";
-import { openOpenAIApiKeyPanel } from "../store/settings-ui";
-import { Message, Parameters } from "./chat/types";
-import { useChat, UseChatResult } from "./chat/use-chat";
-import { TTSContextProvider } from "./tts/use-tts";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { isProxySupported } from "./chat/openai";
-import { audioContext, resetAudioContext } from "./tts/audio-file-player";
+import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import { type IntlShape, useIntl } from 'react-intl'
+import { Backend, type User } from './backend'
+import { ChatManager } from './'
+import { useAppDispatch } from '../store'
+import { openOpenAIApiKeyPanel } from '../store/settings-ui'
+import { type Message, type Parameters } from './chat/types'
+import { useChat, type UseChatResult } from './chat/use-chat'
+import { TTSContextProvider } from './tts/use-tts'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { isProxySupported } from './chat/openai'
+import { audioContext, resetAudioContext } from './tts/audio-file-player'
 
 export interface Context {
-    authenticated: boolean;
-    sessionExpired: boolean;
-    chat: ChatManager;
-    user: User | null;
-    intl: IntlShape;
-    id: string | undefined | null;
-    currentChat: UseChatResult;
-    isHome: boolean;
-    isShare: boolean;
-    generating: boolean;
-    onNewMessage: (message?: string) => Promise<string | false>;
-    regenerateMessage: (message: Message) => Promise<boolean>;
-    editMessage: (message: Message, content: string) => Promise<boolean>;
+  authenticated: boolean
+  sessionExpired: boolean
+  chat: ChatManager
+  user: User | null
+  intl: IntlShape
+  id: string | undefined | null
+  currentChat: UseChatResult
+  isHome: boolean
+  isShare: boolean
+  generating: boolean
+  onNewMessage: (message?: string) => Promise<string | false>
+  regenerateMessage: (message: Message) => Promise<boolean>
+  editMessage: (message: Message, content: string) => Promise<boolean>
 }
 
-const AppContext = React.createContext<Context>({} as any);
+const AppContext = React.createContext<Context>({} as any)
 
-const chatManager = new ChatManager();
-const backend = new Backend(chatManager);
+const chatManager = new ChatManager()
+const backend = new Backend(chatManager)
 
-let intl: IntlShape;
+let intl: IntlShape
 
-export function useCreateAppContext(): Context {
-    const { id: _id } = useParams();
-    const [nextID, setNextID] = useState(uuidv4());
-    const id = _id ?? nextID;
+export function useCreateAppContext (): Context {
+  const { id: _id } = useParams()
+  const [nextID, setNextID] = useState(uuidv4())
+  const id = _id ?? nextID
 
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-    intl = useIntl();
+  intl = useIntl()
 
-    const { pathname } = useLocation();
-    const isHome = pathname === '/';
-    const isShare = pathname.startsWith('/s/');
+  const { pathname } = useLocation()
+  const isHome = pathname === '/'
+  const isShare = pathname.startsWith('/s/')
 
-    const currentChat = useChat(chatManager, id, isShare);
-    const [authenticated, setAuthenticated] = useState(backend?.isAuthenticated || false);
-    const [wasAuthenticated, setWasAuthenticated] = useState(backend?.isAuthenticated || false);
+  const currentChat = useChat(chatManager, id, isShare)
+  const [authenticated, setAuthenticated] = useState(backend?.isAuthenticated || false)
+  const [wasAuthenticated, setWasAuthenticated] = useState(backend?.isAuthenticated || false)
 
-    useEffect(() => {
-        chatManager.on('y-update', update => backend?.receiveYUpdate(update))
-    }, []);
+  useEffect(() => {
+    chatManager.on('y-update', update => { backend?.receiveYUpdate(update) })
+  }, [])
 
-    const updateAuth = useCallback((authenticated: boolean) => {
-        setAuthenticated(authenticated);
-        if (authenticated && backend.user) {
-            chatManager.login(backend.user.email || backend.user.id);
+  const updateAuth = useCallback((authenticated: boolean) => {
+    setAuthenticated(authenticated)
+    if (authenticated && backend.user) {
+      chatManager.login(backend.user.email || backend.user.id)
+    }
+    if (authenticated) {
+      setWasAuthenticated(true)
+      localStorage.setItem('registered', 'true')
+    }
+  }, [])
+
+  useEffect(() => {
+    updateAuth(backend?.isAuthenticated || false)
+    backend?.on('authenticated', updateAuth)
+    return () => {
+      backend?.off('authenticated', updateAuth)
+    }
+  }, [updateAuth])
+
+  const onNewMessage = useCallback(async (message?: string, imageUrl?: string) => {
+    resetAudioContext()
+
+    if (isShare) {
+      return false
+    }
+
+    if (!message?.trim().length) {
+      return false
+    }
+
+    // const openaiApiKey = store.getState().apiKeys.openAIApiKey;
+    const openaiApiKey = chatManager.options.getOption<string>('openai', 'apiKey')
+
+    if (!openaiApiKey && !isProxySupported()) {
+      dispatch(openOpenAIApiKeyPanel())
+      return false
+    }
+
+    const parameters: Parameters = {
+      model: chatManager.options.getOption<string>('parameters', 'model', id),
+      temperature: chatManager.options.getOption<number>('parameters', 'temperature', id)
+    }
+
+    if (id === nextID) {
+      setNextID(uuidv4())
+
+      const autoPlay = chatManager.options.getOption<boolean>('tts', 'autoplay')
+
+      if (autoPlay) {
+        const ttsService = chatManager.options.getOption<string>('tts', 'service')
+        if (ttsService === 'web-speech') {
+          const utterance = new SpeechSynthesisUtterance('Generating')
+          utterance.volume = 0
+          speechSynthesis.speak(utterance)
         }
-        if (authenticated) {
-            setWasAuthenticated(true);
-            localStorage.setItem('registered', 'true');
-        }
-    }, []);
+      }
+    }
 
-    useEffect(() => {
-        updateAuth(backend?.isAuthenticated || false);
-        backend?.on('authenticated', updateAuth);
-        return () => {
-            backend?.off('authenticated', updateAuth)
-        };
-    }, [updateAuth]);
+    chatManager.sendMessage({
+      chatID: id,
+      content: message.trim(),
+      image_url: imageUrl,
+      requestedParameters: {
+        ...parameters,
+        apiKey: openaiApiKey
+      },
+      parentID: currentChat.leaf?.id
+    })
 
-    const onNewMessage = useCallback(async (message?: string, imageUrl?: string) => {
-        resetAudioContext();
+    return id
+  }, [dispatch, id, currentChat.leaf, isShare])
 
-        if (isShare) {
-            return false;
-        }
+  const regenerateMessage = useCallback(async (message: Message) => {
+    resetAudioContext()
 
-        if (!message?.trim().length) {
-            return false;
-        }
+    if (isShare) {
+      return false
+    }
 
-        // const openaiApiKey = store.getState().apiKeys.openAIApiKey;
-        const openaiApiKey = chatManager.options.getOption<string>('openai', 'apiKey');
+    // const openaiApiKey = store.getState().apiKeys.openAIApiKey;
+    const openaiApiKey = chatManager.options.getOption<string>('openai', 'apiKey')
 
-        if (!openaiApiKey && !isProxySupported()) {
-            dispatch(openOpenAIApiKeyPanel());
-            return false;
-        }
+    if (!openaiApiKey && !isProxySupported()) {
+      dispatch(openOpenAIApiKeyPanel())
+      return false
+    }
 
-        const parameters: Parameters = {
-            model: chatManager.options.getOption<string>('parameters', 'model', id),
-            temperature: chatManager.options.getOption<number>('parameters', 'temperature', id),
-        };
+    const parameters: Parameters = {
+      model: chatManager.options.getOption<string>('parameters', 'model', id),
+      temperature: chatManager.options.getOption<number>('parameters', 'temperature', id)
+    }
 
-        if (id === nextID) {
-            setNextID(uuidv4());
+    await chatManager.regenerate(message, {
+      ...parameters,
+      apiKey: openaiApiKey
+    })
 
-            const autoPlay = chatManager.options.getOption<boolean>('tts', 'autoplay');
+    return true
+  }, [dispatch, isShare])
 
-            if (autoPlay) {
-                const ttsService = chatManager.options.getOption<string>('tts', 'service');
-                if (ttsService === 'web-speech') {
-                    const utterance = new SpeechSynthesisUtterance('Generating');
-                    utterance.volume = 0;
-                    speechSynthesis.speak(utterance);
-                }
-            }
-        }
+  const editMessage = useCallback(async (message: Message, content: string) => {
+    resetAudioContext()
 
-        chatManager.sendMessage({
-            chatID: id,
-            content: message.trim(),
-            image_url: imageUrl,
-            requestedParameters: {
-                ...parameters,
-                apiKey: openaiApiKey,
-            },
-            parentID: currentChat.leaf?.id,
-        });
+    if (isShare) {
+      return false
+    }
 
-        return id;
-    }, [dispatch, id, currentChat.leaf, isShare]);
+    if (!content?.trim().length) {
+      return false
+    }
 
-    const regenerateMessage = useCallback(async (message: Message) => {
-        resetAudioContext();
+    // const openaiApiKey = store.getState().apiKeys.openAIApiKey;
+    const openaiApiKey = chatManager.options.getOption<string>('openai', 'apiKey')
 
-        if (isShare) {
-            return false;
-        }
+    if (!openaiApiKey && !isProxySupported()) {
+      dispatch(openOpenAIApiKeyPanel())
+      return false
+    }
 
-        // const openaiApiKey = store.getState().apiKeys.openAIApiKey;
-        const openaiApiKey = chatManager.options.getOption<string>('openai', 'apiKey');
+    const parameters: Parameters = {
+      model: chatManager.options.getOption<string>('parameters', 'model', id),
+      temperature: chatManager.options.getOption<number>('parameters', 'temperature', id)
+    }
 
-        if (!openaiApiKey && !isProxySupported()) {
-            dispatch(openOpenAIApiKeyPanel());
-            return false;
-        }
+    if (id && chatManager.has(id)) {
+      await chatManager.sendMessage({
+        chatID: id,
+        content: content.trim(),
+        image_url: message.image_url,
+        requestedParameters: {
+          ...parameters,
+          apiKey: openaiApiKey
+        },
+        parentID: message.parentID
+      })
+    } else {
+      const id = await chatManager.createChat()
+      await chatManager.sendMessage({
+        chatID: id,
+        content: content.trim(),
+        image_url: message.image_url,
+        requestedParameters: {
+          ...parameters,
+          apiKey: openaiApiKey
+        },
+        parentID: message.parentID
+      })
+    }
 
-        const parameters: Parameters = {
-            model: chatManager.options.getOption<string>('parameters', 'model', id),
-            temperature: chatManager.options.getOption<number>('parameters', 'temperature', id),
-        };
+    return true
+  }, [dispatch, id, isShare])
 
-        await chatManager.regenerate(message, {
-            ...parameters,
-            apiKey: openaiApiKey,
-        });
+  const generating = currentChat?.messagesToDisplay?.length > 0
+    ? !currentChat.messagesToDisplay[currentChat.messagesToDisplay.length - 1].done
+    : false
 
-        return true;
-    }, [dispatch, isShare]);
+  const context = useMemo<Context>(() => ({
+    authenticated,
+    sessionExpired: !authenticated && wasAuthenticated,
+    id,
+    user: backend.user,
+    intl,
+    chat: chatManager,
+    currentChat,
+    isHome,
+    isShare,
+    generating,
+    onNewMessage,
+    regenerateMessage,
+    editMessage
+  }), [authenticated, wasAuthenticated, generating, onNewMessage, regenerateMessage, editMessage, currentChat, id, isHome, isShare, intl])
 
-    const editMessage = useCallback(async (message: Message, content: string) => {
-        resetAudioContext();
-
-        if (isShare) {
-            return false;
-        }
-
-        if (!content?.trim().length) {
-            return false;
-        }
-
-        // const openaiApiKey = store.getState().apiKeys.openAIApiKey;
-        const openaiApiKey = chatManager.options.getOption<string>('openai', 'apiKey');
-
-        if (!openaiApiKey && !isProxySupported()) {
-            dispatch(openOpenAIApiKeyPanel());
-            return false;
-        }
-
-        const parameters: Parameters = {
-            model: chatManager.options.getOption<string>('parameters', 'model', id),
-            temperature: chatManager.options.getOption<number>('parameters', 'temperature', id),
-        };
-
-        if (id && chatManager.has(id)) {
-            await chatManager.sendMessage({
-                chatID: id,
-                content: content.trim(),
-                image_url: message.image_url,
-                requestedParameters: {
-                    ...parameters,
-                    apiKey: openaiApiKey,
-                },
-                parentID: message.parentID,
-            });
-        } else {
-            const id = await chatManager.createChat();
-            await chatManager.sendMessage({
-                chatID: id,
-                content: content.trim(),
-                image_url: message.image_url,
-                requestedParameters: {
-                    ...parameters,
-                    apiKey: openaiApiKey,
-                },
-                parentID: message.parentID,
-            });
-        }
-
-        return true;
-    }, [dispatch, id, isShare]);
-
-    const generating = currentChat?.messagesToDisplay?.length > 0
-        ? !currentChat.messagesToDisplay[currentChat.messagesToDisplay.length - 1].done
-        : false;
-
-    const context = useMemo<Context>(() => ({
-        authenticated,
-        sessionExpired: !authenticated && wasAuthenticated,
-        id,
-        user: backend.user,
-        intl,
-        chat: chatManager,
-        currentChat,
-        isHome,
-        isShare,
-        generating,
-        onNewMessage,
-        regenerateMessage,
-        editMessage,
-    }), [authenticated, wasAuthenticated, generating, onNewMessage, regenerateMessage, editMessage, currentChat, id, isHome, isShare, intl]);
-
-    return context;
+  return context
 }
 
-export function useAppContext() {
-    return React.useContext(AppContext);
+export function useAppContext () {
+  return React.useContext(AppContext)
 }
 
-export function AppContextProvider(props: { children: React.ReactNode }) {
-    const context = useCreateAppContext();
-    return <AppContext.Provider value={context}>
+export function AppContextProvider (props: { children: React.ReactNode }) {
+  const context = useCreateAppContext()
+  return <AppContext.Provider value={context}>
         <TTSContextProvider>
             {props.children}
         </TTSContextProvider>
-    </AppContext.Provider>;
+    </AppContext.Provider>
 }

@@ -1,4 +1,4 @@
 export interface OpenAIMessage {
-    role: string;
-    content: string;
+  role: string
+  content: string
 }

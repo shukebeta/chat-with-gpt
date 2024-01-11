@@ -1,5 +1,5 @@
-import SettingsTab from "./tab";
+import SettingsTab from './tab'
 
-export default function SpeechOptionsTab() {
-    return <SettingsTab name="speech" />
+export default function SpeechOptionsTab () {
+  return <SettingsTab name="speech" />
 }
