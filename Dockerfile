@@ -2,8 +2,7 @@
 FROM node:alpine AS build
 
 RUN apt-get update && \
-    apt-get install -y git && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y git 
 
 # Set working directory for the build stage
 WORKDIR /app
