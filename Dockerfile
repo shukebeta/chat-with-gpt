@@ -1,5 +1,5 @@
 # Build stage
-FROM node:alpine AS build
+FROM node:slim AS build
 
 RUN apt-get update && \
     apt-get install -y git 
