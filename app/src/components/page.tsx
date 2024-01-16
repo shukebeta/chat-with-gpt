@@ -1,13 +1,13 @@
-import styled from '@emotion/styled';
-import { SpotlightProvider } from '@mantine/spotlight';
-import { useChatSpotlightProps } from '../spotlight';
-import { LoginModal, CreateAccountModal } from './auth-modals';
-import Header, { HeaderProps, SubHeader } from './header';
-import MessageInput from './input';
-import { InstallUpdateNotification } from './pwa-notifications';
-import SettingsDrawer from './settings';
-import Sidebar from './sidebar';
-import AudioControls from './tts-controls';
+import styled from '@emotion/styled'
+import { SpotlightProvider } from '@mantine/spotlight'
+import { useChatSpotlightProps } from '../spotlight'
+import { LoginModal, CreateAccountModal } from './auth-modals'
+import Header, { type HeaderProps, SubHeader } from './header'
+import MessageInput from './input'
+import { InstallUpdateNotification } from './pwa-notifications'
+import SettingsDrawer from './settings'
+import Sidebar from './sidebar'
+import AudioControls from './tts-controls'
 
 const Container = styled.div`
     position: absolute;
@@ -55,7 +55,7 @@ const Container = styled.div`
             display: none;
         }
     }
-`;
+`
 
 const Main = styled.div`
     flex-grow: 1;
@@ -66,17 +66,17 @@ const Main = styled.div`
     @media (min-height: 30em) {
         overflow: hidden;
     }
-`;
+`
 
-export function Page(props: {
-    id: string;
-    headerProps?: HeaderProps;
-    showSubHeader?: boolean;
-    children: any;
+export function Page (props: {
+  id: string
+  headerProps?: HeaderProps
+  showSubHeader?: boolean
+  children: any
 }) {
-    const spotlightProps = useChatSpotlightProps();
+  const spotlightProps = useChatSpotlightProps()
 
-    return <SpotlightProvider {...spotlightProps}>
+  return <SpotlightProvider {...spotlightProps}>
         <Container>
             <Sidebar />
             <Main key={props.id}>
@@ -94,5 +94,5 @@ export function Page(props: {
                 <InstallUpdateNotification />
             </Main>
         </Container>
-    </SpotlightProvider>;
+    </SpotlightProvider>
 }

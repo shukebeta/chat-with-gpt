@@ -1,19 +1,19 @@
-import { expose } from "comlink";
-import * as methods from ".";
-import { OpenAIMessage } from "../chat/types";
-import { ChatHistoryTrimmer, ChatHistoryTrimmerOptions } from "./chat-history-trimmer";
+import { expose } from 'comlink'
+import * as methods from '.'
+import { type OpenAIMessage } from '../chat/types'
+import { ChatHistoryTrimmer, type ChatHistoryTrimmerOptions } from './chat-history-trimmer'
 
-export function runChatTrimmer(messages: OpenAIMessage[], options: ChatHistoryTrimmerOptions) {
-    const trimmer = new ChatHistoryTrimmer(messages, options);
-    return trimmer.process();
+export function runChatTrimmer (messages: OpenAIMessage[], options: ChatHistoryTrimmerOptions) {
+  const trimmer = new ChatHistoryTrimmer(messages, options)
+  return trimmer.process()
 }
 
-export function countTokensForText(text: string) {
-    return methods.countTokensForText(text);
+export function countTokensForText (text: string) {
+  return methods.countTokensForText(text)
 }
 
-export function countTokensForMessages(messages: OpenAIMessage[]) {
-    return methods.countTokensForMessages(messages);
+export function countTokensForMessages (messages: OpenAIMessage[]) {
+  return methods.countTokensForMessages(messages)
 }
 
-expose({ runChatTrimmer, countTokensForText, countTokensForMessages });
+expose({ runChatTrimmer, countTokensForText, countTokensForMessages })
