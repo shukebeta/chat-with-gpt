@@ -6,7 +6,7 @@ export const autoScrollOptions: OptionGroup = {
   options: [
     {
       id: 'auto-scroll-when-opening-chat',
-      defaultValue: false,
+      defaultValue: true,
       displayOnSettingsScreen: 'ui',
       displayAsSeparateSection: false,
       renderProps: {
@@ -55,7 +55,7 @@ export const markdownOptions: OptionGroup = {
   options: [
     {
       id: 'katex',
-      defaultValue: false,
+      defaultValue: true,
       displayOnSettingsScreen: 'ui',
       renderProps: {
         type: 'checkbox',
