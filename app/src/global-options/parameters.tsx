@@ -33,11 +33,7 @@ export const parameterOptions: OptionGroup = {
             value: 'gpt-3.5-turbo'
           },
           {
-            label: 'GPT-3.5 Turbo Snapshot (June 13, 2023)',
-            value: 'gpt-3.5-turbo-0613'
-          },
-          {
-            label: 'GPT-3.5 Turbo Snapshot (November 6, 2023) (default)',
+            label: 'GPT-3.5 Turbo Snapshot (November 6, 2023)',
             value: 'gpt-3.5-turbo-1106'
           },
           {
@@ -45,11 +41,7 @@ export const parameterOptions: OptionGroup = {
             value: 'gpt-3.5-turbo-16k'
           },
           {
-            label: 'GPT-3.5 Turbo 16k Snapshot (June 13, 2023)',
-            value: 'gpt-3.5-turbo-16k-0613'
-          },
-          {
-            label: 'GPT-4 Snapshot (November 6, 2023)',
+            label: 'GPT-4 Snapshot 128k',
             value: 'gpt-4-1106-preview'
           },
           {
@@ -61,24 +53,8 @@ export const parameterOptions: OptionGroup = {
             value: 'gpt-4'
           },
           {
-            label: 'GPT-4 Snapshot (March 14, 2023)',
-            value: 'gpt-4-0314'
-          },
-          {
-            label: 'GPT-4 Snapshot (June 13, 2023)',
-            value: 'gpt-4-0613'
-          },
-          {
-            label: 'GPT-4 32k (requires invite)',
+            label: 'GPT-4 32k',
             value: 'gpt-4-32k'
-          },
-          {
-            label: 'GPT-4 32k June Snapshot (required invite)',
-            value: 'gpt-4-32k-0613'
-          },
-          {
-            label: 'GPT-4 32k March Snapshot (required invite)',
-            value: 'gpt-4-32k-0314'
           }
         ]
       })
