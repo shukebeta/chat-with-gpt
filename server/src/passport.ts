@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import passport from 'passport'
@@ -8,6 +10,7 @@ import type ChatServer from './index'
 import { config } from './config'
 
 const secret = config.authSecret
+const sessionTimeout = config.sessionTimeout
 
 export function configurePassport (context: ChatServer) {
   const SQLiteStore = createSQLiteSessionStore(session)
@@ -51,6 +54,13 @@ export function configurePassport (context: ChatServer) {
     secret,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      maxAge: (sessionTimeout != null)
+        ? (sessionTimeout.days * (1000 * 60 * 60 * 24)) +
+          (sessionTimeout.hours * (1000 * 60 * 60)) +
+          (sessionTimeout.minutes * (1000 * 60))
+        : undefined
+    },
     store: sessionStore as any
   }))
   context.app.use(passport.authenticate('session'))
