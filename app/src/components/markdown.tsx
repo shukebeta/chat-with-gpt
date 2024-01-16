@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import styled from '@emotion/styled'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -73,7 +74,7 @@ export function Markdown (props: MarkdownProps) {
     const remarkPlugins: any[] = [remarkGfm]
     const rehypePlugins: any[] = []
 
-    if (props.katex) {
+    if (props.katex === true) {
       remarkPlugins.push(remarkMath)
       rehypePlugins.push(rehypeKatex)
     }
@@ -84,7 +85,7 @@ export function Markdown (props: MarkdownProps) {
                 rehypePlugins={rehypePlugins}
                 components={{
                   ol ({ start, children }) {
-                    return <ol start={start ?? 0} style={{ counterReset: `list-item ${(start || 0)}` }}>
+                    return <ol start={start ?? 0} style={{ counterReset: `list-item ${((start != null) || 0)}` }}>
                             {children}
                         </ol>
                   },
