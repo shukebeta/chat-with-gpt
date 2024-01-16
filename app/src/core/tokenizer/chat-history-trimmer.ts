@@ -50,15 +50,26 @@ export class ChatHistoryTrimmer {
     const firstUserMessage = this.messages.find(m => m.role === 'user')
     const last = this.messages[this.messages.length - 1]
 
-    this.output = [
-      tokenizer.truncateMessage(systemPrompt!, 100)
-    ]
+    this.output = []
 
-    if (firstUserMessage === last) {
-      this.output.push(tokenizer.truncateMessage(firstUserMessage, this.options.maxTokens - 100))
-    } else {
-      this.output.push(tokenizer.truncateMessage(firstUserMessage!, 100))
-      this.output.push(tokenizer.truncateMessage(last, this.options.maxTokens - 200))
+    // If there is a system prompt and we want to preserve it, add it to the output
+    if (systemPrompt && this.options.preserveSystemPrompt) {
+      this.output.push(tokenizer.truncateMessage(systemPrompt, 100))
+    }
+
+    // Handle the first user message and the last message based on the conditions
+    if (firstUserMessage && this.options.preserveFirstUserMessage) {
+      if (firstUserMessage === last) {
+        this.output.push(tokenizer.truncateMessage(firstUserMessage, this.options.maxTokens - 100));
+      } else {
+        this.output.push(tokenizer.truncateMessage(firstUserMessage, 100));
+        if (last) {
+          this.output.push(tokenizer.truncateMessage(last, this.options.maxTokens - 200));
+        }
+      }
+    } else if (last) {
+      // If we're not preserving the first user message, just add the last message
+      this.output.push(tokenizer.truncateMessage(last, this.options.maxTokens));
     }
 
     excessTokens = this.countExcessTokens()
