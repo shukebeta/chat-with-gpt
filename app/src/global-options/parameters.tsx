@@ -68,7 +68,7 @@ export const parameterOptions: OptionGroup = {
       displayAsSeparateSection: true,
       displayInQuickSettings: {
         name: 'Temperature',
-        displayByDefault: false,
+        displayByDefault: true,
         label: (value) => 'Temperature: ' + value.toFixed(1)
       },
       renderProps: (value, options, context) => ({
