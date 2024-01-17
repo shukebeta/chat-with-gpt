@@ -23,7 +23,7 @@ const optionsForQuickSettings: Option[] = [];
     if (option.displayInQuickSettings) {
       optionsForQuickSettings.push({
         id: plugin.id + '--' + option.id,
-        defaultValue: !!option.displayInQuickSettings?.displayByDefault,
+        defaultValue: !!((option.displayInQuickSettings?.displayByDefault) ?? false),
         displayOnSettingsScreen: 'ui',
         displayAsSeparateSection: false,
         renderProps: {
