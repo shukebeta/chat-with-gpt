@@ -39,7 +39,7 @@ export const inputOptions: OptionGroup = {
       displayAsSeparateSection: false,
       displayInQuickSettings: {
         name: 'Enable/disable submit message when Enter is pressed',
-        displayByDefault: false,
+        displayByDefault: true,
         label: (value) => value ? 'Disable submit on Enter' : 'Enable submit on Enter'
       },
       renderProps: {

@@ -35,7 +35,7 @@ export class ContextTrimmerPlugin extends Plugin<ContextTrimmerPluginOptions> {
           },
           displayInQuickSettings: {
             name: 'Max Tokens',
-            displayByDefault: false,
+            displayByDefault: true,
             label: value => `Max tokens: ${value}`
           }
         },
