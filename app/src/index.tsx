@@ -41,28 +41,34 @@ const router = createBrowserRouter([
   }
 ])
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root')!
-)
+const rootElement = document.getElementById('root')
+if (!rootElement) throw new Error('Root container missing in index.html')
 
-async function loadLocaleData (locale: string) {
+const root = ReactDOM.createRoot(rootElement)
+
+type LocaleMessages = Record<string, string | { defaultMessage: string }>
+
+async function loadLocaleData (locale: string): Promise<Record<string, string>> {
   const response = await fetch(`/lang/${locale}.json`)
   if (!response.ok) {
     throw new Error('Failed to load locale data')
   }
-  const messages: any = await response.json()
+
+  const messages: LocaleMessages = await response.json()
+  const formattedMessages: Record<string, string> = {}
+
   for (const key of Object.keys(messages)) {
-    if (typeof messages[key] !== 'string') {
-      messages[key] = messages[key].defaultMessage
-    }
+    const message = messages[key]
+    formattedMessages[key] = typeof message === 'string' ? message : message.defaultMessage
   }
-  return messages
+
+  return formattedMessages
 }
 
-async function bootstrapApplication () {
+async function bootstrapApplication (): Promise<void> {
   const locale = navigator.language
 
-  let messages: any
+  let messages: Record<string, string> | undefined
   try {
     messages = await loadLocaleData(locale.toLocaleLowerCase())
   } catch (e) {
@@ -70,20 +76,20 @@ async function bootstrapApplication () {
   }
 
   root.render(
-        <React.StrictMode>
-            <IntlProvider locale={navigator.language} defaultLocale="en-GB" messages={messages}>
-                <MantineProvider theme={{ colorScheme: 'dark' }}>
-                    <Provider store={store}>
-                        <PersistGate loading={null} persistor={persistor}>
-                            <ModalsProvider>
-                                <RouterProvider router={router} />
-                            </ModalsProvider>
-                        </PersistGate>
-                    </Provider>
-                </MantineProvider>
-            </IntlProvider>
-        </React.StrictMode>
+    <React.StrictMode>
+      <IntlProvider locale={navigator.language} defaultLocale="en-GB" messages={messages}>
+        <MantineProvider theme={{ colorScheme: 'dark' }}>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <ModalsProvider>
+                <RouterProvider router={router} />
+              </ModalsProvider>
+            </PersistGate>
+          </Provider>
+        </MantineProvider>
+      </IntlProvider>
+    </React.StrictMode>
   )
 }
 
-bootstrapApplication()
+void bootstrapApplication()

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { type OptionGroup } from '../core/options/option-group'
 
 export const autoScrollOptions: OptionGroup = {
