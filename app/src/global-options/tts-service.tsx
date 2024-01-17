@@ -1,6 +1,7 @@
 import { ttsPlugins } from '../core/plugins/metadata'
 import { type OptionGroup } from '../core/options/option-group'
 
+// eslint-disable-next-line new-cap
 const ttsPluginMetadata = ttsPlugins.map(p => new p().describe())
 
 export const ttsServiceOptions: OptionGroup = {

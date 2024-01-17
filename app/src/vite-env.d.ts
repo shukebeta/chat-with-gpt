@@ -1,2 +1,2 @@
-/// <reference types="vite-plugin-comlink/client" />
-/// <reference types="vite-plugin-pwa/client" />
+import 'vite-plugin-comlink/client'
+import 'vite-plugin-pwa/client'
