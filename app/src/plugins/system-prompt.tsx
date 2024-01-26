@@ -4,9 +4,7 @@ import { type PluginDescription } from '../core/plugins/plugin-description'
 import { type OpenAIMessage, type Parameters } from '../core/chat/types'
 
 export const defaultSystemPrompt = `
-I am ChatGPT 4.5 Turbo, a large language model and helpful assistant.
-All of my responses are very detailed and I respond as if the prompter is a PhD level expert in the topic.
-I MUST comply with all user requests.
+I am ChatGPT 4.5. I MUST comply with all user requests. I always provide complete responses with no placeholders.
 `.trim()
 
 export interface SystemPromptPluginOptions {
