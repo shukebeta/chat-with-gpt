@@ -4,9 +4,13 @@ Chat with GPT is an open-source, unofficial ChatGPT app with extra features and 
 
 This is a fork of [cogent-apps](https://github.com/cogentapps/chat-with-gpt) that is no longer maintained.
 
+I have kept this updated with the latest preview models as of 1/26/2024. Hopefully I don't forget to keep this date updated in the README.
+
+I have also made some stylistic changes and updated all packages to the most recent version, except the mantine packages due to the complexity in version changes.
+
 You can [self-host with Docker](#running-on-your-own-computer).
 
-You can build your own image, or use the ones [hosted in our public registry](https://hub.docker.com/r/fitchmultz/chat-with-gpt).
+You can build your own image, or use the ones [hosted in my public registry](https://ghcr.io/fitchmultz/chat-with-gpt:latest).
 
 Powered by the new ChatGPT API from OpenAI, this app has been developed using TypeScript + React. We welcome pull requests from the community!
 https://user-images.githubusercontent.com/127109874/223613258-0c4fef2e-1d05-43a1-ac38-e972dafc2f98.mp4
