@@ -37,8 +37,16 @@ export const parameterOptions: OptionGroup = {
             value: 'gpt-3.5-turbo-1106'
           },
           {
+            label: 'GPT-3.5 Turbo Jan 2024',
+            value: 'gpt-3.5-turbo-0125'
+          },
+          {
             label: 'GPT-3.5 Turbo 16k',
             value: 'gpt-3.5-turbo-16k'
+          },
+          {
+            label: ' GPT-4 Turbo 0125 128k',
+            value: 'gpt-4-0125-preview'
           },
           {
             label: 'GPT-4 Snapshot 128k',
