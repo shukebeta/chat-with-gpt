@@ -53,15 +53,15 @@ export const parameterOptions: OptionGroup = {
             value: 'gpt-4-32k'
           },
           {
-            label: 'GPT-3.5 Turbo',
+            label: 'GPT-3.5 Turbo Preview (latest)',
             value: 'gpt-3.5-turbo'
           },
           {
-            label: 'GPT-3.5 Turbo Jan 2024',
+            label: 'GPT-3.5 Turbo 0125 Jan 2024',
             value: 'gpt-3.5-turbo-0125'
           },
           {
-            label: 'GPT-3.5 Turbo Snapshot (November 6, 2023)',
+            label: 'GPT-3.5 Turbo 1106 Nov 2023',
             value: 'gpt-3.5-turbo-1106'
           }
         ]
