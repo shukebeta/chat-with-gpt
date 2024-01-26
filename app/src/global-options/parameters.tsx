@@ -45,6 +45,10 @@ export const parameterOptions: OptionGroup = {
             value: 'gpt-3.5-turbo-16k'
           },
           {
+            label: 'GPT-4 Turbo Preview (latest)',
+            value: 'gpt-4-turbo-preview'
+          },
+          {
             label: ' GPT-4 Turbo 0125 128k',
             value: 'gpt-4-0125-preview'
           },
