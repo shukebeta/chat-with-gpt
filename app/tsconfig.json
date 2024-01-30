@@ -9,7 +9,6 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    // "noImplicitAny": true, // Ensure the codebase is ready for this
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
