@@ -32,24 +32,44 @@ export interface OpenAIResponseChunk {
   model?: string
 }
 
-function parseResponseChunk (buffer: any): OpenAIResponseChunk {
-  const chunk = buffer.toString().replace('data: ', '').trim()
+function parseResponseChunk (buffer: any): OpenAIResponseChunk[] {
+  const chunk = buffer.toString().replace('data: ', '').trim();
 
   if (chunk === '[DONE]') {
-    return {
-      done: true
+    return [{ done: true }];
+  }
+
+  console.log(chunk);
+
+  try {
+    // Directly attempt to parse the chunk as a valid JSON object.
+    const parsed = JSON.parse(chunk);
+    return [{
+      id: parsed.id,
+      done: false,
+      choices: parsed.choices,
+      model: parsed.model
+    }];
+  } catch (e) {
+    // If parsing fails, attempt to handle concatenated JSON objects.
+    try {
+      // Separate concatenated JSON objects and parse them as an array.
+      const modifiedChunk = '[' + chunk.replace(/}\s*{/g, '},{') + ']';
+      const parsedArray = JSON.parse(modifiedChunk);
+      return parsedArray.map(parsed => ({
+        id: parsed.id,
+        done: false,
+        choices: parsed.choices,
+        model: parsed.model
+      }));
+    } catch (error) {
+      console.error('Error parsing modified JSON:', error);
+      // Return an indication of an error or an empty array as appropriate.
+      return [{ done: true }];
     }
   }
-
-  const parsed = JSON.parse(chunk)
-
-  return {
-    id: parsed.id,
-    done: false,
-    choices: parsed.choices,
-    model: parsed.model
-  }
 }
+
 
 export async function createChatCompletion (messages: OpenAIMessage[], parameters: Parameters): Promise<string> {
   const proxied = shouldUseProxy(parameters.apiKey)
@@ -131,20 +151,23 @@ export async function createStreamingChatCompletion (messages: OpenAIMessage[], 
 
   eventSource.addEventListener('message', async (event: any) => {
     if (event.data === '[DONE]') {
-      emitter.emit('done')
-      return
+      emitter.emit('done');
+      return;
     }
-
+  
     try {
-      const chunk = parseResponseChunk(event.data)
-      if (chunk.choices && chunk.choices.length > 0) {
-        contents += chunk.choices[0]?.delta?.content || ''
-        emitter.emit('data', contents)
-      }
+      const chunks = parseResponseChunk(event.data);
+      chunks.forEach(chunk => {
+        if (chunk.choices && chunk.choices.length > 0) {
+          contents += chunk.choices[0]?.delta?.content || '';
+        }
+      });
+      emitter.emit('data', contents);
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  })
+  });
+  
 
   eventSource.stream()
 
