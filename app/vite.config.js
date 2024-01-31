@@ -15,11 +15,11 @@ export default defineConfig(() => {
     },
     build: {
       outDir: "build",
-      target: "es2021",
+      target: "es2020",
       sourcemap: true,
     },
     esbuild: {
-      target: "es2021",
+      target: "es2020",
     },
     resolve: {
       alias: {
