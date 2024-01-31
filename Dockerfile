@@ -1,7 +1,7 @@
 # Build stage
 FROM node:slim AS build
 
-RUN apt-get update && \
+RUN apt-get update -y && \
     apt-get install -y git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -26,6 +26,8 @@ RUN npm run build
 
 # Server stage
 FROM node:slim AS server
+
+RUN apt-get update -y
 
 # Set the working directory for the server stage
 WORKDIR /app
