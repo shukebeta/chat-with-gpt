@@ -39,7 +39,8 @@ function parseResponseChunk (buffer: any): OpenAIResponseChunk[] {
     return [{ done: true }];
   }
 
-  console.log(chunk);
+  // Uncomment for deugging potential chunk issues
+  // console.log(chunk);
 
   try {
     // Directly attempt to parse the chunk as a valid JSON object.
