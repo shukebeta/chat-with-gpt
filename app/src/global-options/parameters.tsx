@@ -33,38 +33,62 @@ export const parameterOptions: OptionGroup = {
             value: 'gpt-4-turbo-preview'
           },
           {
-            label: 'GPT-4 Turbo Preview 0125 128k Jan 2024',
+            label: 'GPT-4 Turbo 0125 Preview',
             value: 'gpt-4-0125-preview'
           },
           {
-            label: 'GPT-4 Turbo Preview 1106 128k Nov 2023',
+            label: 'GPT-4 Turbo 1106 Preview',
             value: 'gpt-4-1106-preview'
           },
           {
-            label: 'GPT-4V (GPT-4 with Vision)',
+            label: 'GPT-4 Vision Preview',
             value: 'gpt-4-vision-preview'
           },
           {
-            label: 'GPT-4',
+            label: 'GPT-4 (latest)',
             value: 'gpt-4'
           },
           {
-            label: 'GPT-4 32k',
+            label: 'GPT-4 0613',
+            value: 'gpt-4-0613'
+          },
+          {
+            label: 'GPT-4 32k (latest)',
             value: 'gpt-4-32k'
           },
           {
-            label: 'GPT-3.5 Turbo Preview (latest)',
+            label: 'GPT-4 32k 0613',
+            value: 'gpt-4-32k-0613'
+          },
+          {
+            label: 'GPT-3.5 Turbo (latest)',
             value: 'gpt-3.5-turbo'
           },
           {
-            label: 'GPT-3.5 Turbo 0125 Jan 2024',
-            value: 'gpt-3.5-turbo-0125'
+            label: 'GPT-3.5 Turbo 1106',
+            value: 'gpt-3.5-turbo-1106'
           },
           {
-            label: 'GPT-3.5 Turbo 1106 Nov 2023',
-            value: 'gpt-3.5-turbo-1106'
+            label: 'GPT-3.5 Turbo 16k (latest)',
+            value: 'gpt-3.5-turbo-16k'
+          },
+          {
+            label: 'GPT-3.5 Turbo Instruct',
+            value: 'gpt-3.5-turbo-instruct'
+          },
+          {
+            label: 'GPT-3.5 Turbo 0613',
+            value: 'gpt-3.5-turbo-0613'
+          },
+          {
+            label: 'GPT-3.5 Turbo 16k 0613',
+            value: 'gpt-3.5-turbo-16k-0613'
+          },
+          {
+            label: 'GPT-3.5 Turbo 0301',
+            value: 'gpt-3.5-turbo-0301'
           }
-        ]
+        ]        
       })
     },
     {
