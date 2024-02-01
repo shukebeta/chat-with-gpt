@@ -7,6 +7,8 @@ import { AsyncLoop } from './utils/async-loop'
 import { type ChatManager } from '.'
 import { getRateLimitResetTimeFromResponse } from './utils'
 import { importChat } from './chat/chat-persistance'
+import * as encoding from 'lib0/encoding.js'
+import * as decoding from 'lib0/decoding.js'
 
 const endpoint = '/chatapi'
 
@@ -95,8 +97,8 @@ export class Backend extends EventEmitter {
       return
     }
 
-    const encoding = await import('lib0/encoding')
-    const decoding = await import('lib0/decoding')
+    // const encoding = await import('lib0/encoding')
+    // const decoding = await import('lib0/decoding')
     const syncProtocol = await import('y-protocols/sync')
 
     const sinceLastFullSync = Date.now() - this.lastFullSyncAt
