@@ -4,7 +4,7 @@ Chat with GPT is an open-source, unofficial ChatGPT app with extra features and 
 
 This is a fork of [cogent-apps](https://github.com/cogentapps/chat-with-gpt) that is no longer maintained.
 
-I have kept this updated with the latest preview models as of 1/26/2024. Hopefully I don't forget to keep this date updated in the README.
+I have kept this updated with the latest preview models as of 2/13/2024. Hopefully I don't forget to keep this date updated in the README.
 
 I have also made some stylistic changes and updated all packages to the most recent version, except the mantine packages due to the complexity in version changes.
 
@@ -52,7 +52,7 @@ Your API key is stored only on your device and never transmitted to anyone excep
 To run on your own device, you can use Docker:
 
 ```
-docker run -v $(pwd)/data:/app/data -p 3000:3000 docker.io/fitchmultz/chat-with-gpt:release
+docker run -v $(pwd)/data:/app/data -p 3000:3000 ghcr.io/fitchmultz/chat-with-gpt:latest
 ```
 
 Then navigate to http://localhost:3000 to view the app.
