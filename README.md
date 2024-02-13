@@ -78,7 +78,7 @@ and restart the server. Login is required.
 ## Updating
 
 ```
-docker pull docker.io/fitchmultz/chat-with-gpt:latest
+docker pull ghcr.io/fitchmultz/chat-with-gpt:latest
 ```
 
 ## TODOs
