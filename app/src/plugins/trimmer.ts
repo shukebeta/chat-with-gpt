@@ -20,17 +20,17 @@ export class ContextTrimmerPlugin extends Plugin<ContextTrimmerPluginOptions> {
         {
           id: 'maxTokens',
           displayOnSettingsScreen: 'chat',
-          defaultValue: 2048,
+          defaultValue: 4096,
           scope: 'chat',
           renderProps: (value, options) => ({
             label: `Include a maximum of ${value} tokens`,
             type: 'slider',
             min: 512,
-            max: maxTokensByModel[options.getOption('parameters', 'model')] || 2048,
+            max: maxTokensByModel[options.getOption('parameters', 'model')] || 4096,
             step: 64
           }),
           validate: (value, options) => {
-            const max = maxTokensByModel[options.getOption('parameters', 'model')] || 2048
+            const max = maxTokensByModel[options.getOption('parameters', 'model')] || 4096
             return value <= max
           },
           displayInQuickSettings: {
@@ -87,7 +87,7 @@ export class ContextTrimmerPlugin extends Plugin<ContextTrimmerPluginOptions> {
     const options = this.options
 
     const trimmed = await runChatTrimmer(messages, {
-      maxTokens: options?.maxTokens ?? 2048,
+      maxTokens: options?.maxTokens ?? 4096,
       nMostRecentMessages: options?.maxMessages ?? undefined,
       preserveFirstUserMessage: options?.preserveFirstUserMessage || true,
       preserveSystemPrompt: options?.preserveSystemPrompt || true
