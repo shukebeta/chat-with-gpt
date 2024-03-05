@@ -61,8 +61,8 @@
   },
   "devDependencies": {
     "@formatjs/cli": "6.2.7",
-    "@types/node": "^20.11.20",
-    "@types/react": "^18.2.58",
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.63",
     "@types/react-dom": "18.2.19",
     "@types/react-helmet": "6.1.11",
     "@types/react-syntax-highlighter": "15.5.11",
@@ -80,7 +80,7 @@
     "eslint-plugin-react": "7.33.2",
     "prettier": "3.2.5",
     "typescript": "5.3.3",
-    "vite": "^5.1.4",
+    "vite": "^5.1.5",
     "vite-plugin-pwa": "0.19.0",
     "workbox-window": "7.0.0"
   }
