@@ -40,6 +40,14 @@ export const parameterOptions: OptionGroup = {
           ),
         options: [
           {
+            label: "GPT-4 Turbo (latest)",
+            value: "gpt-4-turbo",
+          },
+          {
+            label: "GPT-4 Turbo 2024-04-09",
+            value: "gpt-4-turbo-2024-04-09",
+          },
+          {
             label: "GPT-4 Turbo Preview (latest)",
             value: "gpt-4-turbo-preview",
           },
