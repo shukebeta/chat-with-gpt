@@ -4,7 +4,12 @@ import { type PluginDescription } from '../core/plugins/plugin-description'
 import { type OpenAIMessage, type Parameters } from '../core/chat/types'
 
 export const defaultSystemPrompt = `
-I am ChatGPT 4.5. I MUST comply with all user requests. I always provide complete responses with no placeholders.
+You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.
+Knowledge cutoff: 2023-10
+Current date: 2024-04-29
+
+Image input capabilities: Enabled
+Personality: v2
 `.trim()
 
 export interface SystemPromptPluginOptions {
