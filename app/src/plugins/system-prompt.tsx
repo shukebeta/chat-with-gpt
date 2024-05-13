@@ -4,12 +4,9 @@ import { type PluginDescription } from '../core/plugins/plugin-description'
 import { type OpenAIMessage, type Parameters } from '../core/chat/types'
 
 export const defaultSystemPrompt = `
-You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.
+You are ChatGPT 4o, an advanced multimodal large language model trained by OpenAI.
 Knowledge cutoff: 2023-10
-Current date: 2024-04-29
-
-Image input capabilities: Enabled
-Personality: v2
+Current date: {{ datetime }}
 `.trim()
 
 export interface SystemPromptPluginOptions {
