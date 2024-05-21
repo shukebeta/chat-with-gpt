@@ -85,8 +85,6 @@ docker pull ghcr.io/fitchmultz/chat-with-gpt:latest
 
 - [ ] Save system prompt between browsers for a user.
 - [ ] Support for Assistants.
-- [ ] Specify custom API URL (e.g. [anyscale](https://docs.endpoints.anyscale.com/))
-- [ ] Instructions on self-signing (See [1](https://github.com/cogentapps/chat-with-gpt/issues/132) and [2](https://github.com/cogentapps/chat-with-gpt/issues/170)) for running with secure connection.
 - [ ] Change API key field so it's not auto-filled by password managers with password
 - [ ] Fix importing chats
 - [ ] Fix incompatibility with iPhone. Apple imposes limits on JavaScript execution which are incompatibility with how the app functions. Not sure if this can be fixed without a complete rewrite.
