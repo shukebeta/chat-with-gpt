@@ -8,16 +8,7 @@ on:
       - dev2
 
 jobs:
-  cancel-previous-runs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
-  
   build-and-push:
-    needs: cancel-previous-runs
     runs-on: ubuntu-latest
 
     steps:
