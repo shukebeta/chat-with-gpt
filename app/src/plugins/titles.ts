@@ -5,12 +5,12 @@ import { countTokens, runChatTrimmer } from '../core/tokenizer/wrapper'
 import { titlesModel } from '../core/chat/openai'
 
 export const systemPrompt = `
-Please read the following exchange and write a short, concise title describing the topic (in the user's language).
+Please read the following exchange and write a short, concise title describing the topic in English.
 If there is no clear topic for the exchange, respond with: N/A
 `.trim()
 
 export const systemPromptForLongExchanges = `
-Please read the following exchange and write a short, concise title describing the topic (in the user's language).
+Please read the following exchange and write a short, concise title describing the topic in English.
 `.trim()
 
 export interface TitlePluginOptions {
