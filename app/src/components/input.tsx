@@ -66,6 +66,7 @@ export default function MessageInput (props: MessageInputProps) {
   const dispatch = useAppDispatch()
   const intl = useIntl()
   const fileInputRef = useRef(null)
+  const textAreaRef = useRef<HTMLTextAreaElement>(null) // Create a reference for the Textarea
 
   const tab = useAppSelector(selectSettingsTab)
 
@@ -89,8 +90,17 @@ export default function MessageInput (props: MessageInputProps) {
       }
       dispatch(setMessage(''))
       setImageUrl(null)
+      if (textAreaRef.current) {
+        textAreaRef.current.focus() // Refocus the Textarea after submission
+      }
     }
   }, [context, message, imageUrl, dispatch, navigate])
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.focus() // Refocus the Textarea after message state updates
+    }
+  }, [message])
 
   const onSpeechError = useCallback((e: any) => {
     console.error('speech recognition error', e)
@@ -345,7 +355,8 @@ export default function MessageInput (props: MessageInputProps) {
     )
   }, [recording, transcribing, isImageUploading, imageUrl, showImageNameDropdown, onSubmit, onSpeechStart, props.disabled, context.generating, speechError, onHideSpeechError, showMicrophoneButton])
 
-  const disabled = context.generating
+  // Remove the disabled attribute based on context.generating
+  const disabled = false 
 
   const isLandingPage = pathname === '/'
   if (context.isShare || (!isLandingPage && !context.id)) {
@@ -377,7 +388,9 @@ export default function MessageInput (props: MessageInputProps) {
                 onChange={onChange}
                 rightSection={rightSection}
                 rightSectionWidth={context.generating ? 100 : 55}
-                onKeyDown={hotkeyHandler} />
+                onKeyDown={hotkeyHandler}
+                ref={textAreaRef} // Attach the reference to the Textarea
+            />
             <QuickSettings key={tab} />
         </div>
     </Container>
