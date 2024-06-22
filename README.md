@@ -4,7 +4,7 @@ Chat with GPT is an open-source ChatGPT app with extra features and more ways to
 
 This is a fork of [cogent-apps](https://github.com/cogentapps/chat-with-gpt) that is no longer maintained.
 
-I have kept this updated with the latest preview models as of May 13, 2024, the launch of GPT-4o.
+I have kept this updated with the latest preview models as of June 22, 2024.
 
 I am attempting to keep all packages and dependencies updated to the most recent version for security and compatibility.
 
@@ -84,6 +84,7 @@ docker pull ghcr.io/fitchmultz/chat-with-gpt:latest
 ## TODOs
 
 - [ ] Save system prompt between browsers for a user.
+- [ ] Add support for Anthropic API models
 - [ ] Support for Assistants.
 - [ ] Change API key field so it's not auto-filled by password managers with password
 - [ ] Fix importing chats
