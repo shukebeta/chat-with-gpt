@@ -40,80 +40,76 @@ export const parameterOptions: OptionGroup = {
           ),
         options: [
           {
-            label: "GPT-4o (latest)",
+            label: "chatgpt-4o-latest",
+            value: "chatgpt-4o-latest",
+          },
+          {
+            label: "gpt-4o",
             value: "gpt-4o",
           },
           {
-            label: "GPT-4o Mini (latest)",
+            label: "gpt-4o-2024-05-13",
+            value: "gpt-4o-2024-05-13",
+          },
+          {
+            label: "gpt-4o-2024-08-06",
+            value: "gpt-4o-2024-08-06",
+          },
+          {
+            label: "gpt-4o-mini",
             value: "gpt-4o-mini",
           },
           {
-            label: "GPT-4 Turbo (latest)",
+            label: "gpt-4o-mini-2024-07-18",
+            value: "gpt-4o-mini-2024-07-18",
+          },
+          {
+            label: "gpt-4-turbo (latest)",
             value: "gpt-4-turbo",
           },
           {
-            label: "GPT-4 Turbo 2024-04-09",
+            label: "gpt-4-turbo-2024-04-09",
             value: "gpt-4-turbo-2024-04-09",
           },
           {
-            label: "GPT-4 Turbo Preview (latest)",
+            label: "gpt-4-turbo-preview",
             value: "gpt-4-turbo-preview",
           },
           {
-            label: "GPT-4 Turbo 0125 Preview",
+            label: "gpt-4-0125-preview",
             value: "gpt-4-0125-preview",
           },
           {
-            label: "GPT-4 Turbo 1106 Preview",
+            label: "gpt-4-1106-preview",
             value: "gpt-4-1106-preview",
           },
           {
-            label: "GPT-4 Vision Preview",
-            value: "gpt-4-vision-preview",
-          },
-          {
-            label: "GPT-4 Classic",
+            label: "gpt-4",
             value: "gpt-4",
           },
           {
-            label: "GPT-4 Classic 0613",
+            label: "gpt-4-0613",
             value: "gpt-4-0613",
           },
           {
-            label: "GPT-4 32k",
-            value: "gpt-4-32k",
+            label: "gpt-4-0314",
+            value: "gpt-4-0314",
           },
           {
-            label: "GPT-4 32k 0613",
-            value: "gpt-4-32k-0613",
-          },
-          {
-            label: "GPT-3.5 Turbo 0125",
+            label: "gpt-3.5-turbo-0125",
             value: "gpt-3.5-turbo-0125",
           },
           {
-            label: "GPT-3.5 Turbo 1106",
-            value: "gpt-3.5-turbo-1106",
-          },
-          {
-            label: "GPT-3.5 Turbo",
+            label: "gpt-3.5-turbo",
             value: "gpt-3.5-turbo",
           },
           {
-            label: "GPT-3.5 Turbo 16k",
-            value: "gpt-3.5-turbo-16k",
+            label: "gpt-3.5-turbo-1106",
+            value: "gpt-3.5-turbo-1106",
           },
           {
-            label: "GPT-3.5 Turbo Instruct",
+            label: "gpt-3.5-turbo-instruct",
             value: "gpt-3.5-turbo-instruct",
-          },
-          {
-            label: "GPT-3.5 Turbo 0613",
-            value: "gpt-3.5-turbo-0613",
-          },
-          {
-            label: "GPT-3.5 Turbo 16k 0613",
-            value: "gpt-3.5-turbo-16k-0613",
           },
         ],
       }),
