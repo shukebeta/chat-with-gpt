@@ -4,7 +4,7 @@ Chat with GPT is an open-source ChatGPT app with extra features and more ways to
 
 This is a fork of [cogent-apps](https://github.com/cogentapps/chat-with-gpt) that is no longer maintained.
 
-I have kept this updated with the latest preview models as of July 30, 2024.
+I have kept this updated with the latest preview models as of August 24, 2024.
 
 I am attempting to keep all packages and dependencies updated to the most recent version for security and compatibility.
 
@@ -14,7 +14,6 @@ You can build your own image, or use the images I've built and [hosted in my pub
 
 Powered by the ChatGPT API from OpenAI, this app has been developed using TypeScript + React. I welcome pull requests from the community.
 https://user-images.githubusercontent.com/127109874/223613258-0c4fef2e-1d05-43a1-ac38-e972dafc2f98.mp4
-
 
 ## Features
 
@@ -61,7 +60,7 @@ Then navigate to http://localhost:3000 to view the app.
 
 For convenience, you can store your API keys on your computer instead of entering them in the browser.
 
-*Warning:* Be careful doing this because anyone with access to your interface will be able to use your API key. 
+_Warning:_ Be careful doing this because anyone with access to your interface will be able to use your API key.
 
 Create a file called `config.yaml` in your `data` folder with the following contents. The `data` dirextory is created after running the container for the first time:
 
@@ -90,9 +89,9 @@ docker pull ghcr.io/fitchmultz/chat-with-gpt:latest
 - [ ] Fix importing chats
 - [ ] Fix incompatibility with iPhone. Apple imposes limits on JavaScript execution which are incompatibility with how the app functions. Not sure if this can be fixed without a complete rewrite.
 
-
 ## Support
-I am one dude with a full time job but I'll try to provide whatever support I can. 
+
+I am one dude with a full time job but I'll try to provide whatever support I can.
 
 ## License
 
