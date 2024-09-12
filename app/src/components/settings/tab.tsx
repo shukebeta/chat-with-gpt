@@ -91,7 +91,7 @@ export function PluginOptionWidget (props: { pluginID: string, option: Option, c
 
   const [_value, setValue, renderProps] = useOption(props.pluginID, option.id, props.chatID || undefined)
 
-  const value = _value ?? option.defaultValue
+  const value = _value ?? option.defaultValue ?? '';
 
   if (option.defaultValue && (typeof value === 'undefined' || value === null)) {
     console.warn(`expected option value for ${props.pluginID}.${option.id}, got:`, _value)
