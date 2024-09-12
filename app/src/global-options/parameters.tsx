@@ -40,6 +40,22 @@ export const parameterOptions: OptionGroup = {
           ),
         options: [
           {
+            label: "o1-preview",
+            value: "o1-preview",
+          },
+          {
+            label: "o1-preview-2024-09-12",
+            value: "o1-preview-2024-09-12",
+          },
+          {
+            label: "o1-mini",
+            value: "o1-mini",
+          },
+          {
+            label: "o1-mini-2024-09-12",
+            value: "o1-mini-2024-09-12",
+          },
+          {
             label: "chatgpt-4o-latest",
             value: "chatgpt-4o-latest",
           },
