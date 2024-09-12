@@ -1,5 +1,6 @@
 import styled from '@emotion/styled'
-import Helmet from 'react-helmet'
+// import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet-async'  // Import HelmetProvider from react-helmet-async
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useSpotlight } from '@mantine/spotlight'
 import { Burger, Button, type ButtonProps } from '@mantine/core'
@@ -141,7 +142,7 @@ export interface HeaderProps {
   canShare?: boolean
 }
 
-export default function Header (props: HeaderProps) {
+export default function Header(props: HeaderProps) {
   const context = useAppContext()
   const navigate = useNavigate()
   const spotlight = useSpotlight()
@@ -189,41 +190,41 @@ export default function Header (props: HeaderProps) {
   ])
 
   const header = useMemo(() => (<>
-        {context.sessionExpired && <Banner onClick={signIn}>
-            You have been signed out. Click here to sign back in.
-        </Banner>}
-        <HeaderContainer className={context.isHome ? 'shaded' : ''}>
-            <Helmet>
-                <title>
-                    {props.title ? `${props.title} - ` : ''}
-                    {intl.formatMessage({ defaultMessage: 'Chat with GPT - Unofficial ChatGPT app', description: 'HTML title tag' })}
-                </title>
-            </Helmet>
-            {!sidebarOpen && <Burger opened={sidebarOpen} onClick={onBurgerClick} aria-label={burgerLabel} transitionDuration={0} />}
-            {context.isHome && <h2>{intl.formatMessage({ defaultMessage: 'Chat with GPT', description: 'app name' })}</h2>}
-            <div className="spacer" />
-            <HeaderButton icon="search" onClick={spotlight.openSpotlight} />
-            <HeaderButton icon="gear" onClick={openSettings} />
-            {backend.current && !props.share && props.canShare && typeof navigator.share !== 'undefined' && <HeaderButton icon="share" onClick={props.onShare}>
-                <FormattedMessage defaultMessage="Share" description="Label for the button used to create a public share URL for a chat log" />
-            </HeaderButton>}
-            {backend.current && !context.authenticated && (
-                <HeaderButton onClick={localStorage.getItem('registered') ? signIn : signUp}>
-                    <FormattedMessage defaultMessage="Sign in <h>to sync</h>"
-                        description="Label for sign in button, which indicates that the purpose of signing in is to sync your data between devices. Less important text inside <h> tags is hidden on small screens."
-                        values={{
-                          h: (chunks: any) => <span className="hide-on-mobile">{chunks}</span>
-                        }} />
-                </HeaderButton>
-            )}
-            <HeaderButton icon="plus" onClick={onNewChat} loading={loading} variant="light">
-                <FormattedMessage defaultMessage="New Chat" description="Label for the button used to start a new chat session" />
+    {context.sessionExpired && <Banner onClick={signIn}>
+        You have been signed out. Click here to sign back in.
+    </Banner>}
+    <HeaderContainer className={context.isHome ? 'shaded' : ''}>
+        <Helmet>
+            <title>
+                {props.title ? `${props.title} - ` : ''}
+                {intl.formatMessage({ defaultMessage: 'Chat with GPT - Unofficial ChatGPT app', description: 'HTML title tag' })}
+            </title>
+        </Helmet>
+        {!sidebarOpen && <Burger opened={sidebarOpen} onClick={onBurgerClick} aria-label={burgerLabel} transitionDuration={0} />}
+        {context.isHome && <h2>{intl.formatMessage({ defaultMessage: 'Chat with GPT', description: 'app name' })}</h2>}
+        <div className="spacer" />
+        <HeaderButton icon="search" onClick={spotlight.openSpotlight} />
+        <HeaderButton icon="gear" onClick={openSettings} />
+        {backend.current && !props.share && props.canShare && typeof navigator.share !== 'undefined' && <HeaderButton icon="share" onClick={props.onShare}>
+            <FormattedMessage defaultMessage="Share" description="Label for the button used to create a public share URL for a chat log" />
+        </HeaderButton>}
+        {backend.current && !context.authenticated && (
+            <HeaderButton onClick={localStorage.getItem('registered') ? signIn : signUp}>
+                <FormattedMessage defaultMessage="Sign in <h>to sync</h>"
+                    description="Label for sign in button, which indicates that the purpose of signing in is to sync your data between devices. Less important text inside <h> tags is hidden on small screens."
+                    values={{
+                      h: (chunks: any) => <span className="hide-on-mobile">{chunks}</span>
+                    }} />
             </HeaderButton>
-        </HeaderContainer>
-    </>), [sidebarOpen, onBurgerClick, props.title, props.share, props.canShare, props.onShare, openSettings, onNewChat,
-    loading, context.authenticated, context.sessionExpired, context.isHome, context.isShare, spotlight.openSpotlight, signIn, signUp])
+        )}
+        <HeaderButton icon="plus" onClick={onNewChat} loading={loading} variant="light">
+            <FormattedMessage defaultMessage="New Chat" description="Label for the button used to start a new chat session" />
+        </HeaderButton>
+    </HeaderContainer>
+</>), [sidebarOpen, onBurgerClick, props.title, props.share, props.canShare, props.onShare, openSettings, onNewChat,
+loading, context.authenticated, context.sessionExpired, context.isHome, context.isShare, spotlight.openSpotlight, signIn, signUp])
 
-  return header
+return header
 }
 
 function SubHeaderMenuItem (props: { item: MenuItem }) {
