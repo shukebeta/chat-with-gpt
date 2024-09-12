@@ -88,7 +88,7 @@ export async function createChatCompletion (messages: OpenAIMessage[], parameter
 
   // The GPT-4V model preview requires max tokens to be set
   if (parameters.model === 'gpt-4-vision-preview') {
-    payload.max_tokens = 4096
+    payload.max_completion_tokens = 4096
   }
 
   const response = await fetch(endpoint + '/v1/chat/completions', {
@@ -125,7 +125,7 @@ export async function createStreamingChatCompletion (messages: OpenAIMessage[], 
 
   // The GPT-4V model preview requires max tokens to be set
   if (parameters.model === 'gpt-4-vision-preview') {
-    payload.max_tokens = 4096
+    payload.max_completion_tokens = 4096
   }
 
   const eventSource = new SSE(endpoint + '/v1/chat/completions', {
@@ -178,7 +178,7 @@ export async function createStreamingChatCompletion (messages: OpenAIMessage[], 
   }
 }
 
-export const maxTokensByModel = {
+export const maxCompletionTokensByModel = {
   'o1-preview': 128000,
   'o1-preview-2024-09-12': 128000,
   'o1-mini': 128000,

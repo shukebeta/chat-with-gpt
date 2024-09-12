@@ -3,6 +3,7 @@ import { SpotlightProvider } from '@mantine/spotlight'
 import { useChatSpotlightProps } from '../spotlight'
 import { LoginModal, CreateAccountModal } from './auth-modals'
 import Header, { type HeaderProps, SubHeader } from './header'
+import { HelmetProvider } from 'react-helmet-async'  // Import HelmetProvider from react-helmet-async
 import MessageInput from './input'
 import { InstallUpdateNotification } from './pwa-notifications'
 import SettingsDrawer from './settings'
@@ -76,7 +77,7 @@ export function Page (props: {
 }) {
   const spotlightProps = useChatSpotlightProps()
 
-  return <SpotlightProvider {...spotlightProps}>
+  return <HelmetProvider><SpotlightProvider {...spotlightProps}>
         <Container>
             <Sidebar />
             <Main key={props.id}>
@@ -95,4 +96,5 @@ export function Page (props: {
             </Main>
         </Container>
     </SpotlightProvider>
+    </HelmetProvider>
 }

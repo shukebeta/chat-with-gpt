@@ -1,11 +1,11 @@
 import Plugin from '../core/plugins'
 import { type PluginDescription } from '../core/plugins/plugin-description'
 import { type OpenAIMessage, type Parameters } from '../core/chat/types'
-import { maxTokensByModel } from '../core/chat/openai'
+import { maxCompletionTokensByModel } from '../core/chat/openai'
 import { countTokens, runChatTrimmer } from '../core/tokenizer/wrapper'
 
 export interface ContextTrimmerPluginOptions {
-  maxTokens: number
+  maxCompletionTokens: number
   maxMessages: number | null
   preserveSystemPrompt: boolean
   preserveFirstUserMessage: boolean
@@ -18,7 +18,7 @@ export class ContextTrimmerPlugin extends Plugin<ContextTrimmerPluginOptions> {
       name: 'Message Context',
       options: [
         {
-          id: 'maxTokens',
+          id: 'maxCompletionTokens',
           displayOnSettingsScreen: 'chat',
           defaultValue: 4096,
           scope: 'chat',
@@ -26,11 +26,11 @@ export class ContextTrimmerPlugin extends Plugin<ContextTrimmerPluginOptions> {
             label: `Include a maximum of ${value} tokens`,
             type: 'slider',
             min: 512,
-            max: maxTokensByModel[options.getOption('parameters', 'model')] || 4096,
+            max: maxCompletionTokensByModel[options.getOption('parameters', 'model')] || 4096,
             step: 64
           }),
           validate: (value, options) => {
-            const max = maxTokensByModel[options.getOption('parameters', 'model')] || 4096
+            const max = maxCompletionTokensByModel[options.getOption('parameters', 'model')] || 4096
             return value <= max
           },
           displayInQuickSettings: {
@@ -87,7 +87,7 @@ export class ContextTrimmerPlugin extends Plugin<ContextTrimmerPluginOptions> {
     const options = this.options
 
     const trimmed = await runChatTrimmer(messages, {
-      maxTokens: options?.maxTokens ?? 4096,
+      maxCompletionTokens: options?.maxCompletionTokens ?? 4096,
       nMostRecentMessages: options?.maxMessages ?? undefined,
       preserveFirstUserMessage: options?.preserveFirstUserMessage || true,
       preserveSystemPrompt: options?.preserveSystemPrompt || true
