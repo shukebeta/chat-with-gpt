@@ -4,7 +4,7 @@ import SSE from '../utils/sse'
 import { type OpenAIMessage, type Parameters } from './types'
 import { backend } from '../backend'
 
-export const defaultModel = 'o1-preview'
+export const defaultModel = 'chatgpt-4o-latest'
 export const titlesModel = 'chatgpt-4o-latest'
 
 export function isProxySupported () {
