@@ -42,7 +42,7 @@ export class TitlePlugin extends Plugin<TitlePluginOptions> {
         const tokens = await countTokens(messages)
 
         messages = await runChatTrimmer(messages, {
-          maxTokens: 1024,
+          maxCompletionTokens: 1024,
           preserveFirstUserMessage: true,
           preserveSystemPrompt: false
         })

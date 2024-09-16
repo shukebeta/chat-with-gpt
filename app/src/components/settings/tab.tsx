@@ -91,7 +91,7 @@ export function PluginOptionWidget (props: { pluginID: string, option: Option, c
 
   const [_value, setValue, renderProps] = useOption(props.pluginID, option.id, props.chatID || undefined)
 
-  const value = _value ?? option.defaultValue
+  const value = _value ?? option.defaultValue ?? '';
 
   if (option.defaultValue && (typeof value === 'undefined' || value === null)) {
     console.warn(`expected option value for ${props.pluginID}.${option.id}, got:`, _value)
@@ -231,25 +231,26 @@ export default function SettingsTab (props: {
         <Tabs.Panel value={props.name}>
             <Settings>
                 {props.children}
-                {optionSets.map(({ name, id, description, options, resettable, collapsed }) => <>
-                    <SettingsOption heading={name} description={description} collapsed={collapsed} key={id}>
-                        {options.map(o => <PluginOptionWidget
-                            pluginID={id}
-                            option={o}
-                            chatID={context.id}
-                            context={context}
-                            key={id + '.' + o.id} />)}
-                        {resettable && <div style={{
-                          display: 'flex',
-                          gap: '1rem',
-                          marginTop: '1rem'
-                        }}>
-                            <Button size="xs" compact variant="light" onClick={() => { context.chat.resetPluginOptions(id, context.id) }}>
-                                <FormattedMessage defaultMessage="Reset to default" />
-                            </Button>
-                        </div>}
-                    </SettingsOption>
-                </>)}
+                {optionSets.map(({ name, id, description, options, resettable, collapsed }) => (
+                  <SettingsOption heading={name} description={description} collapsed={collapsed} key={id}>
+                    {options.map(o => (
+                      <PluginOptionWidget
+                        pluginID={id}
+                        option={o}
+                        chatID={context.id}
+                        context={context}
+                        key={id + '.' + o.id}  // Ensure each PluginOptionWidget has a unique key
+                      />
+                    ))}
+                    {resettable && (
+                      <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                        <Button size="xs" compact variant="light" onClick={() => { context.chat.resetPluginOptions(id, context.id) }}>
+                          <FormattedMessage defaultMessage="Reset to default" />
+                        </Button>
+                      </div>
+                    )}
+                  </SettingsOption>
+                ))}
             </Settings>
         </Tabs.Panel>
   )
